@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iQuarc.AppBoot", "iQuarc.AppBoot\iQuarc.AppBoot.csproj", "{F1412A2B-3E4D-43BC-8A0A-8FC72703AA2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iQuarc.AppBoot.UnitTests", "iQuarc.AppBoot.UnitTests\iQuarc.AppBoot.UnitTests.csproj", "{FFA3AB36-9635-4639-B1CB-3C915B5D97AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iQuarc.AppBoot.Unity.ExploratoryTests", "iQuarc.AppBoot.Unity.ExplorationTests\iQuarc.AppBoot.Unity.ExploratoryTests.csproj", "{2C568C19-3B63-4B8F-B281-6BC2A62EA230}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1412A2B-3E4D-43BC-8A0A-8FC72703AA2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1412A2B-3E4D-43BC-8A0A-8FC72703AA2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1412A2B-3E4D-43BC-8A0A-8FC72703AA2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1412A2B-3E4D-43BC-8A0A-8FC72703AA2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFA3AB36-9635-4639-B1CB-3C915B5D97AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFA3AB36-9635-4639-B1CB-3C915B5D97AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFA3AB36-9635-4639-B1CB-3C915B5D97AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFA3AB36-9635-4639-B1CB-3C915B5D97AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C568C19-3B63-4B8F-B281-6BC2A62EA230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C568C19-3B63-4B8F-B281-6BC2A62EA230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C568C19-3B63-4B8F-B281-6BC2A62EA230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C568C19-3B63-4B8F-B281-6BC2A62EA230}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
