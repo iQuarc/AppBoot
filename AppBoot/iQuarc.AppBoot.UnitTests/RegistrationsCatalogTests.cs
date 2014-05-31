@@ -125,6 +125,20 @@ namespace iQuarc.AppBoot.UnitTests
         }
 
         [Fact]
+        public void Add__SameFrom_SameContractForDifferentPrio_HighPriorityAddedLast__LowerPrioritiesOverwritten()
+        {
+            ServiceInfo si1 = GetSi<string>("Contract1");
+            ServiceInfo si2 = GetSi<string>("Contract2");
+            ServiceInfo si3 = GetSi<string>("Contract1");
+
+            catalog.Add(si1, 1);
+            catalog.Add(si2, 1);
+            catalog.Add(si3, 3);
+
+            AssertCatalogContainsOnly(si3);
+        }
+
+        [Fact]
         public void Add__SameFrom_DifferentContract_HighPriorityAddedFirst__HighPrioritiesRemain()
         {
             ServiceInfo si1 = GetSi<string>("Contract1");
@@ -195,6 +209,20 @@ namespace iQuarc.AppBoot.UnitTests
         }
 
         [Fact]
+        public void Add__SameFrom_SameNullAndContract_HighPriorityAddedLast__LowerPrioritiesOverwritten()
+        {
+            ServiceInfo si1 = GetSi<string>(null);
+            ServiceInfo si2 = GetSi<string>("Contract");
+            ServiceInfo si3 = GetSi<string>(null);
+
+            catalog.Add(si1, 1);
+            catalog.Add(si2, 1);
+            catalog.Add(si3, 3);
+
+            AssertCatalogContainsOnly(si3);
+        }
+
+        [Fact]
         public void Add__SameFrom_SameNullAndContract_HighPriorityAddedFirst__HighPrioritiesRemain()
         {
             ServiceInfo si1 = GetSi<string>(null);
@@ -208,11 +236,6 @@ namespace iQuarc.AppBoot.UnitTests
             AssertEx.AreEquivalent(catalog, si1, si2);
         }
 
-        public void TestInitialize()
-        {
-            catalog = new RegistrationsCatalog();
-        }
-
         private static ServiceInfo GetSi<TFrom>(string contractName)
         {
             return new ServiceInfo(typeof (TFrom), typeof (int), contractName, Lifetime.Instance);
@@ -221,8 +244,9 @@ namespace iQuarc.AppBoot.UnitTests
         private void AssertCatalogContainsOnly(ServiceInfo si)
         {
             ServiceInfo[] catalogAsArray = catalog.ToArray();
+            Assert.True(catalogAsArray.Length == 1, "Catalog contains zero or more registrations, but one expected");
             Assert.Same(si, catalogAsArray[0]);
-            Assert.True(catalogAsArray.Length == 1, "Catalog contains more registrations than expected");
+            
         }
     }
 }
