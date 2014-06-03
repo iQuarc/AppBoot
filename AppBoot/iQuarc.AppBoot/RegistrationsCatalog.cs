@@ -6,43 +6,56 @@ namespace iQuarc.AppBoot
 {
 	/// <summary>
 	///     A catalog of service registrations which keeps the registrations based on contracts and priorities
-	///     Lower priority registrations for same contract are overwritten by higher priority registrations
+	///     Lower priority registrations for same contract are overwritten by higher priority registrations.
+    /// <para>
+    ///    Registration catalog will contain:
+    ///         1. For one FromType it has registrations given by ONLY one behavior, and that behavior is the one with the highest priority
+    ///         2. Newly added registrations with same FromType, same ContractKey and are ignored
+    /// </para>
 	/// </summary>
 	internal class RegistrationsCatalog : IEnumerable<ServiceInfo>
 	{
-		private readonly List<Registration> registrations = new List<Registration>();
+		private readonly LinkedList<Registration> registrations = new LinkedList<Registration>();
 
 		public void Add(ServiceInfo serviceInfo, int priority)
 		{
 			Registration newRegistration = new Registration(serviceInfo, priority);
-
-			if (string.IsNullOrEmpty(newRegistration.Service.ContractName))
-				AddByType(newRegistration);
-			else
-				AddByContract(newRegistration);
+            Add(newRegistration);
 		}
 
-		private void AddByType(Registration newRegistration)
-		{
-			int index = registrations.FindIndex(r => string.IsNullOrEmpty(r.Service.ContractName) && r.Service.From == newRegistration.Service.From);
+	    private void Add(Registration newReg)
+	    {
+	        bool isNewFrom = true;
+	        bool add = true;
 
-			if (index == -1)
-				registrations.Add(newRegistration);
-			else if (registrations[index].Priority < newRegistration.Priority)
-				registrations[index] = newRegistration;
-		}
+	        LinkedListNode<Registration> current = registrations.First;
+	        while (current != null)
+	        {
+	            Registration reg = current.Value;
+	            LinkedListNode<Registration> next = current.Next;
 
-		private void AddByContract(Registration newRegistration)
-		{
-			int index = registrations.FindIndex(r => r.Service.ContractName == newRegistration.Service.ContractName);
+	            if (reg.Service.From == newReg.Service.From)
+	            {
+	                isNewFrom = false;
 
-			if (index == -1)
-				registrations.Add(newRegistration);
-			else if (registrations[index].Priority < newRegistration.Priority)
-				registrations[index] = newRegistration;
-		}
+	                if (reg.Priority < newReg.Priority)
+	                    registrations.Remove(current);
+	                else if (   reg.Priority > newReg.Priority ||
+                                reg.Service.ContractName == newReg.Service.ContractName)
+	                {
+	                    add = false;
+	                    break;
+	                }
+	            }
 
-		public IEnumerator<ServiceInfo> GetEnumerator()
+	            current = next;
+	        }
+
+	        if (isNewFrom || add)
+	            registrations.AddLast(newReg);
+	    }
+
+	    public IEnumerator<ServiceInfo> GetEnumerator()
 		{
 			return registrations.Select(r => r.Service).GetEnumerator();
 		}
