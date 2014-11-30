@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="iQuarc.AppBoot.Application">
+    <Position X="3.25" Y="3.25" Width="1.5" />
+    <Members>
+      <Method Name="Application" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Modules" Type="iQuarc.AppBoot.IModule">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.025" Y="0.143" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAABAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Application.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Modules" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="iQuarc.AppBoot.Bootstrapper">
+    <Position X="3" Y="5.5" Width="2.75" />
+    <Members>
+      <Method Name="AddRegistrationBehavior" Hidden="true" />
+      <Method Name="Bootstrapper" Hidden="true" />
+      <Method Name="Dispose" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BAAAAAAQBCAAAAAAAQAAAAgAAAAAAkAAAAgAAAAIAAI=</HashCode>
+      <FileName>Bootstrapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="iQuarc.AppBoot.IModule">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IModule.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
