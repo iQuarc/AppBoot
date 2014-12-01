@@ -45,6 +45,7 @@
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1312.1622\lib\net40\Moq.dll</HintPath>
     </Reference>
@@ -63,10 +64,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BootstrapperTests.RegisterBehaviors.cs" />
+    <Compile Include="ConventionRegistrationBehaviorTests.cs" />
     <Compile Include="RegistrationsCatalogTests.cs" />
+    <Compile Include="ServiceEqualityComparer.cs" />
     <Compile Include="ServiceRegistrationBehaviorTests.cs" />
     <Compile Include="BootstrapperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceBuilderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
