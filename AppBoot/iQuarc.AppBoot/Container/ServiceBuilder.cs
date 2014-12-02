@@ -6,13 +6,11 @@ namespace iQuarc.AppBoot
 {
 	public class ServiceBuilder
 	{
-		private readonly IContainer<ServiceBuilder> container;
 		private readonly Predicate<Type> filter;
 		private readonly IList<ExportConfig> configs = new List<ExportConfig>(); 
 
-		internal ServiceBuilder(IContainer<ServiceBuilder> container, Predicate<Type> filter)
+		internal ServiceBuilder(Predicate<Type> filter)
 		{
-			this.container = container;
 			this.filter = filter;
 		}
 
@@ -24,7 +22,6 @@ namespace iQuarc.AppBoot
 		public void Export(Action<ExportBuilder> exportConfiguration)
 		{
 			configs.Add(new ExportConfig { ContractsProvider = t => new[] { t }, ExportConfiguration = exportConfiguration });
-			container.Register(this);
 		}
 
 		public void ExportInterfaces()
@@ -42,13 +39,16 @@ namespace iQuarc.AppBoot
 			Func<Type, IEnumerable<Type>> interfaces = t => t.GetInterfaces().Where(x => interfaceFilter(x));
 
 			configs.Add(new ExportConfig { ExportConfiguration = exportConfiguration, ContractsProvider = interfaces });
-			container.Register(this);
 		}
 
-		internal IEnumerable<ServiceInfo> GetServicesFrom(Type type)
+	    public bool IsMatch(Type type)
+	    {
+	        return filter(type);
+	    }
+
+	    internal IEnumerable<ServiceInfo> GetServicesFrom(Type type)
 		{
-			bool isMatch = filter(type);
-			if (!isMatch)
+			if (!IsMatch(type))
 				yield break;
 
 			foreach (ExportConfig config in configs)
@@ -67,12 +67,12 @@ namespace iQuarc.AppBoot
 			}
 		}
 
-		internal void RegisterConfig(ExportConfig config)
+	    internal void RegisterConfig(ExportConfig config)
 		{
 			this.configs.Add(config);
 		}
 
-		internal class ExportConfig
+	    internal class ExportConfig
 		{
 			internal Action<ExportBuilder> ExportConfiguration { get; set; }
 

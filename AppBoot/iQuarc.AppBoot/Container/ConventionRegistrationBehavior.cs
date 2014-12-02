@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,7 +18,8 @@ namespace iQuarc.AppBoot
 		public ServiceBuilder ForType(Type type)
 		{
 			ServiceBuilder builder = CreateServiceBuilder(x => x == type);
-			return builder;
+			builders.Add(builder);
+            return builder;
 		}
 
 		public ServiceBuilder ForType<T>()
@@ -28,7 +30,8 @@ namespace iQuarc.AppBoot
 		public ServiceBuilder ForTypesDerivedFrom(Type type)
 		{
 			ServiceBuilder builder = CreateServiceBuilder(x => type.IsAssignableFrom(x));
-			return builder;
+            builders.Add(builder);
+            return builder;
 		}
 
 		public ServiceBuilder ForTypesDerivedFrom<T>()
@@ -39,6 +42,7 @@ namespace iQuarc.AppBoot
 		public ServiceBuilder ForTypesMatching(Predicate<Type> typeFilter)
 		{
 			ServiceBuilder builder = CreateServiceBuilder(typeFilter);
+            builders.Add(builder);
 			return builder;
 		}
 
@@ -49,7 +53,17 @@ namespace iQuarc.AppBoot
 
 		private ServiceBuilder CreateServiceBuilder(Predicate<Type> typeFilter)
 		{
-			return new ServiceBuilder(this, typeFilter);
+			return new ServiceBuilder(typeFilter);
 		}
+
+	    public IEnumerator<ServiceBuilder> GetEnumerator()
+	    {
+	        return builders.GetEnumerator();
+	    }
+
+	    IEnumerator IEnumerable.GetEnumerator()
+	    {
+	        return GetEnumerator();
+	    }
 	}
 }
