@@ -43,6 +43,7 @@ namespace iQuarc.AppBoot.UnitTests
 			IRegistrationBehavior regBehaviorStub = GetRegBehaviorStub(testSi);
 
 			Mock<IDependencyContainer> containerMock = GetFakeContainer();
+			
 			Bootstrapper bootstrapper = GetTargetWithAssembly(containerMock);
 			bootstrapper.AddRegistrationBehavior(regBehaviorStub);
 
@@ -51,12 +52,16 @@ namespace iQuarc.AppBoot.UnitTests
 			containerMock.Verify(c => c.RegisterService(testSi), Times.AtLeastOnce);
 		}
 
-		private Bootstrapper GetTargetWithAssemblyAndFakeContainer()
+		[Fact]
+		public void Dispose_DisposableDependencyContainer_DisposesContainer()
 		{
-			Assembly[] assemblies = {typeof (BootstrapperTests).Assembly};
-			IDependencyContainer container = GetFakeContainer().Object;
+			Mock<IDependencyContainer> containerMock = GetFakeContainer();
+			Mock<IDisposable> disposable = containerMock.As<IDisposable>();
 
-			return new Bootstrapper(assemblies, container);
+			Bootstrapper bootstrapper = GetTargetWithAssembly(containerMock);
+
+			bootstrapper.Dispose();
+			disposable.Verify(c => c.Dispose(), Times.Once);
 		}
 
 		private static Bootstrapper GetTarget(Mock<IDependencyContainer> fakeContainer)
@@ -91,6 +96,9 @@ namespace iQuarc.AppBoot.UnitTests
 
 			Mock<IDependencyContainer> containerStub = new Mock<IDependencyContainer>();
 			containerStub.Setup(c => c.AsServiceLocator).Returns(serviceLocator);
+
+			containerStub.As<IDisposable>();
+
 			return containerStub;
 		}
 

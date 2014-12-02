@@ -59,7 +59,6 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Container\ConventionRegistrationBehavior.cs" />
     <Compile Include="Container\ExportBuilder.cs" />
-    <Compile Include="Container\IContainer.cs" />
     <Compile Include="Container\ServiceAttribute.cs" />
     <Compile Include="Container\ServiceBuilder.cs" />
     <Compile Include="Container\ServiceRegistrationBehavior.cs" />

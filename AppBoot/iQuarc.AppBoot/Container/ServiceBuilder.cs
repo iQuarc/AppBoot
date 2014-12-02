@@ -21,7 +21,7 @@ namespace iQuarc.AppBoot
 
 		public void Export(Action<ExportBuilder> exportConfiguration)
 		{
-			configs.Add(new ExportConfig { ContractsProvider = t => new[] { t }, ExportConfiguration = exportConfiguration });
+			RegisterConfig(new ExportConfig { ContractsProvider = t => new[] { t }, ExportConfiguration = exportConfiguration });
 		}
 
 		public void ExportInterfaces()
@@ -38,7 +38,7 @@ namespace iQuarc.AppBoot
 		{
 			Func<Type, IEnumerable<Type>> interfaces = t => t.GetInterfaces().Where(x => interfaceFilter(x));
 
-			configs.Add(new ExportConfig { ExportConfiguration = exportConfiguration, ContractsProvider = interfaces });
+			RegisterConfig(new ExportConfig { ExportConfiguration = exportConfiguration, ContractsProvider = interfaces });
 		}
 
 	    public bool IsMatch(Type type)

@@ -1,14 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace iQuarc.AppBoot
 {
-	public class ConventionRegistrationBehavior : IRegistrationBehavior, IContainer<ServiceBuilder>
+	public class ConventionRegistrationBehavior : IRegistrationBehavior
 	{
 		private readonly IList<ServiceBuilder> builders = new List<ServiceBuilder>();
- 
+
 		public IEnumerable<ServiceInfo> GetServicesFrom(Type type)
 		{
 			IEnumerable<ServiceInfo> services = builders.SelectMany(x => x.GetServicesFrom(type));
@@ -46,24 +45,10 @@ namespace iQuarc.AppBoot
 			return builder;
 		}
 
-		void IContainer<ServiceBuilder>.Register(ServiceBuilder builder)
-		{
-			this.builders.Add(builder);
-		}
 
-		private ServiceBuilder CreateServiceBuilder(Predicate<Type> typeFilter)
+		private static ServiceBuilder CreateServiceBuilder(Predicate<Type> typeFilter)
 		{
 			return new ServiceBuilder(typeFilter);
 		}
-
-	    public IEnumerator<ServiceBuilder> GetEnumerator()
-	    {
-	        return builders.GetEnumerator();
-	    }
-
-	    IEnumerator IEnumerable.GetEnumerator()
-	    {
-	        return GetEnumerator();
-	    }
 	}
 }

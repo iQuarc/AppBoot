@@ -59,16 +59,6 @@ namespace iQuarc.AppBoot.UnitTests
         }
 
         [Fact]
-        public void ForType_OneConfiguration_BehaviorContainsCreatedBuilder()
-        {
-            ConventionRegistrationBehavior behavior = GetTarget();
-
-            ServiceBuilder serviceBuilder = behavior.ForType<MyService>();
-
-            Assert.Contains(serviceBuilder, behavior);
-        }
-
-        [Fact]
         public void ForTypesDerivedFrom_ConfigurationWithBaseAndInheritedTypes_MatchIsTrue()
         {
             ConventionRegistrationBehavior behavior = GetTarget();
@@ -88,15 +78,25 @@ namespace iQuarc.AppBoot.UnitTests
             Assert.False(serviceBuilder.IsMatch(typeof (MyOtherService)));
         }
 
-        [Fact]
-        public void ForTypesDerivedFrom_OneConfiguration_BehaviorContainsCreatedBuilder()
-        {
-            ConventionRegistrationBehavior behavior = GetTarget();
+		[Fact]
+		public void ForTypesMatching_ConfigurationWithServiceSuffix_MatchIsTrue()
+		{
+			ConventionRegistrationBehavior behavior = GetTarget();
 
-            ServiceBuilder serviceBuilder = behavior.ForTypesDerivedFrom<MyService>();
+			ServiceBuilder serviceBuilder = behavior.ForTypesMatching(t => t.Name.EndsWith("Service"));
 
-            Assert.Contains(serviceBuilder, behavior);
-        }
+			Assert.True(serviceBuilder.IsMatch(typeof(MyService)));
+		}
+
+		[Fact]
+		public void ForTypesMatching_ConfigurationWithNoServiceSuffix_MatchIsFalse()
+		{
+			ConventionRegistrationBehavior behavior = GetTarget();
+
+			ServiceBuilder serviceBuilder = behavior.ForTypesMatching(t => t.Name.EndsWith("Service"));
+
+			Assert.False(serviceBuilder.IsMatch(typeof(Repository)));
+		}
 
         private class MyService : MyBaseService
         {
@@ -109,6 +109,10 @@ namespace iQuarc.AppBoot.UnitTests
         private class MyBaseService
         {
         }
+
+		private class Repository
+		{
+		}
 
         private static ConventionRegistrationBehavior GetTarget()
         {

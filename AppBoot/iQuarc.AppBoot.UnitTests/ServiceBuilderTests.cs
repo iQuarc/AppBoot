@@ -160,6 +160,17 @@ namespace iQuarc.AppBoot.UnitTests
 	        AssertEx.AreEquivalent(services, comparer.Equals, expected);
 	    }
 
+		[Fact]
+		public void GetServicesFrom_NoTypeMatch_DoesNotExport()
+		{
+			ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
+			builder.Export();
+
+			ServiceInfo actual = builder.GetServicesFrom(typeof(IMyService1)).FirstOrDefault();
+
+			Assert.Null(actual);
+		}
+
 		private class MyService : IMyService1, IMyService2
 		{
 		}
