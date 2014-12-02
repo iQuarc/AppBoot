@@ -21,7 +21,7 @@ namespace iQuarc.AppBoot
 		public UnityContainerAdapter()
 		{
 			container = new UnityContainer();
-			serviceLocator = new UnityServiceLocator(container);
+			serviceLocator = new UnityHierarchicalServiceLocator(container);
 		}
 
 		public IServiceLocator AsServiceLocator
