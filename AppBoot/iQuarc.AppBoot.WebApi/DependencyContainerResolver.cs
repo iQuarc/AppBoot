@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Http.Dependencies;
 using Microsoft.Practices.ServiceLocation;
@@ -14,7 +13,10 @@ namespace iQuarc.AppBoot.WebApi
 		public DependencyContainerResolver(IServiceLocator serviceLocator)
 		{
 			this.serviceLocator = serviceLocator;
+			this.Logger = new DebugExceptionLogger();
 		}
+
+		public IExceptionLogger Logger { get; set; }
 
 		public void Dispose()
 		{
@@ -31,7 +33,7 @@ namespace iQuarc.AppBoot.WebApi
 			}
 			catch (ActivationException ex)
 			{
-				Debug.WriteLine(ex);
+				Log(ex);
 				return null;
 			}
 		}
@@ -44,7 +46,7 @@ namespace iQuarc.AppBoot.WebApi
 			}
 			catch (ActivationException ex)
 			{
-				Debug.WriteLine(ex);
+				Log(ex);
 				return Enumerable.Empty<object>();
 			}
 		}
@@ -58,6 +60,12 @@ namespace iQuarc.AppBoot.WebApi
 
 			IHierarchicalServiceLocator child = locator.CreateChildServiceLocator();
 			return new DependencyContainerResolver(child);
+		}
+
+		private void Log(Exception exception)
+		{
+			if (Logger != null)
+				Logger.Log(exception);
 		}
 	}
 }

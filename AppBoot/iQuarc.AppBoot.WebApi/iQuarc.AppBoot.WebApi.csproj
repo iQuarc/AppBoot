@@ -55,7 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootstrapperExtensions.cs" />
+    <Compile Include="DebugExceptionLogger.cs" />
     <Compile Include="DependencyContainerResolver.cs" />
+    <Compile Include="IExceptionLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
