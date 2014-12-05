@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace iQuarc.AppBoot
 {
-	public class ConventionRegistrationBehavior : IRegistrationBehavior, IContainer<ServiceBuilder>
+	public class ConventionRegistrationBehavior : IRegistrationBehavior
 	{
 		private readonly IList<ServiceBuilder> builders = new List<ServiceBuilder>();
- 
+
 		public IEnumerable<ServiceInfo> GetServicesFrom(Type type)
 		{
 			IEnumerable<ServiceInfo> services = builders.SelectMany(x => x.GetServicesFrom(type));
@@ -17,7 +17,8 @@ namespace iQuarc.AppBoot
 		public ServiceBuilder ForType(Type type)
 		{
 			ServiceBuilder builder = CreateServiceBuilder(x => x == type);
-			return builder;
+			builders.Add(builder);
+            return builder;
 		}
 
 		public ServiceBuilder ForType<T>()
@@ -28,7 +29,8 @@ namespace iQuarc.AppBoot
 		public ServiceBuilder ForTypesDerivedFrom(Type type)
 		{
 			ServiceBuilder builder = CreateServiceBuilder(x => type.IsAssignableFrom(x));
-			return builder;
+            builders.Add(builder);
+            return builder;
 		}
 
 		public ServiceBuilder ForTypesDerivedFrom<T>()
@@ -39,17 +41,14 @@ namespace iQuarc.AppBoot
 		public ServiceBuilder ForTypesMatching(Predicate<Type> typeFilter)
 		{
 			ServiceBuilder builder = CreateServiceBuilder(typeFilter);
+            builders.Add(builder);
 			return builder;
 		}
 
-		void IContainer<ServiceBuilder>.Register(ServiceBuilder builder)
-		{
-			this.builders.Add(builder);
-		}
 
-		private ServiceBuilder CreateServiceBuilder(Predicate<Type> typeFilter)
+		private static ServiceBuilder CreateServiceBuilder(Predicate<Type> typeFilter)
 		{
-			return new ServiceBuilder(this, typeFilter);
+			return new ServiceBuilder(typeFilter);
 		}
 	}
 }

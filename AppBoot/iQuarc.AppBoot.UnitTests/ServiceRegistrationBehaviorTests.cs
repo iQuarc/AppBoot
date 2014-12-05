@@ -100,12 +100,4 @@ namespace iQuarc.AppBoot.UnitTests
 		{
 		}
 	}
-
-	public static class Extensions
-	{
-		public static T[] AsArray<T>(this T o)
-		{
-			return new[] {o};
-		}
-	}
 }
