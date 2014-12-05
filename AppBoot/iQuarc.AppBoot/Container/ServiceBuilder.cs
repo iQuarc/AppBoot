@@ -67,12 +67,12 @@ namespace iQuarc.AppBoot
 			}
 		}
 
-	    internal void RegisterConfig(ExportConfig config)
+	    private void RegisterConfig(ExportConfig config)
 		{
 			this.configs.Add(config);
 		}
 
-	    internal class ExportConfig
+	    private class ExportConfig
 		{
 			internal Action<ExportBuilder> ExportConfiguration { get; set; }
 
