@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.ServiceLocation;
+using Microsoft.Practices.Unity;
 
 namespace iQuarc.AppBoot
 {
@@ -24,5 +25,11 @@ namespace iQuarc.AppBoot
 		///     Registers the instance into the container as a singleton (Lifetime.Application)
 		/// </summary>
 		void RegisterInstance<T>(T instance);
+
+
+        /// <summary>
+        /// Creates a child container from the current instance
+        /// </summary>
+        IDependencyContainer CreateChildContainer();
 	}
 }

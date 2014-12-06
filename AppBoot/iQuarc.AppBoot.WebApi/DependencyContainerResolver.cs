@@ -51,7 +51,23 @@ namespace iQuarc.AppBoot.WebApi
 			}
 		}
 
-		public IDependencyScope BeginScope()
+	    public IDependencyScope BeginScope()
+	    {
+	        OperationContext contex = OperationContext.Current;
+	        if (contex == null)
+	            contex = OperationContext.CreateNew();
+	     
+            return new DependencyContainerResolver(contex.ServiceLocator);
+	    }
+
+	    public IDependencyScope BeginScope_2()
+	    {
+            // not yet sure how web.api uses this
+	        OperationContext contex = OperationContext.CreateNew();
+	        return new DependencyContainerResolver(contex.ServiceLocator);
+	    }
+
+	    public IDependencyScope BeginScope_o()
 		{
 			IHierarchicalServiceLocator locator = serviceLocator as IHierarchicalServiceLocator;
 

@@ -6,94 +6,118 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace iQuarc.AppBoot
 {
-	/// <summary>
-	///     A class that starts the application and initializes it.
-	/// </summary>
-	public class Bootstrapper : IDisposable
-	{
-		private readonly IEnumerable<Assembly> applicationAssemblies;
-		private readonly IDependencyContainer container;
-		private readonly List<IRegistrationBehavior> behaviors = new List<IRegistrationBehavior>();
+    /// <summary>
+    ///     A class that starts the application and initializes it.
+    /// </summary>
+    public class Bootstrapper : IDisposable
+    {
+        private readonly IDependencyContainer container;
+        private readonly IServiceLocator serviceLocator;
 
-		public Bootstrapper(IEnumerable<Assembly> applicationAssemblies, IDependencyContainer container)
-		{
-			this.applicationAssemblies = applicationAssemblies;
-			this.container = container;
-		}
+        private readonly IEnumerable<Assembly> applicationAssemblies;
+        private readonly List<IRegistrationBehavior> behaviors = new List<IRegistrationBehavior>();
 
-		public IEnumerable<Assembly> ApplicationAssemblies
-		{
-			get { return applicationAssemblies; }
-		}
+        public Bootstrapper(IEnumerable<Assembly> applicationAssemblies, IDependencyContainer container)
+            : this(applicationAssemblies, container, new CallContextStore())
+        {
+        }
 
-		public IServiceLocator ServiceLocator
-		{
-			get { return container.AsServiceLocator; }
-		}
+        public Bootstrapper(IEnumerable<Assembly> applicationAssemblies, IDependencyContainer container, IContextStore contextStore)
+        {
+            this.applicationAssemblies = applicationAssemblies;
+            this.container = container;
+            this.serviceLocator = container.AsServiceLocator;
 
-		public void AddRegistrationBehavior(IRegistrationBehavior behavior)
-		{
-			behaviors.Add(behavior);
-		}
+            InitContextManager(container, contextStore);
+        }
 
-		public virtual void Run()
-		{
-			SetupServiceLocator();
+        private static void InitContextManager(IDependencyContainer container, IContextStore contextStore)
+        {
+            ContextManager.GlobalContainer = container;
+            ContextManager.SetContextStore(contextStore);
+        }
 
-			RegisterServices();
+        public IEnumerable<Assembly> ApplicationAssemblies
+        {
+            get { return applicationAssemblies; }
+        }
 
-			InitApplication();
-		}
+        public IServiceLocator ServiceLocator
+        {
+            get { return serviceLocator; }
+        }
 
-		private void SetupServiceLocator()
-		{
-			IServiceLocator serviceLocator = container.AsServiceLocator;
-			container.RegisterInstance(serviceLocator);
-			Microsoft.Practices.ServiceLocation.ServiceLocator.SetLocatorProvider(serviceLocator.GetInstance<IServiceLocator>);
-		}
+        public void AddRegistrationBehavior(IRegistrationBehavior behavior)
+        {
+            behaviors.Add(behavior);
+        }
 
-		private void RegisterServices()
-		{
-			RegistrationsCatalog catalog = new RegistrationsCatalog();
+        public virtual void Run()
+        {
+            SetupServiceLocator();
 
-			IEnumerable<Type> types = applicationAssemblies.SelectMany(a => a.GetTypes());
+            RegisterServices();
 
-			foreach (Type type in types)
-			{
-				for (int i = 0; i < behaviors.Count; i++)
-				{
-					IRegistrationBehavior behavior = behaviors[i];
+            InitApplication();
+        }
 
-					IEnumerable<ServiceInfo> registrations = behavior.GetServicesFrom(type);
-					foreach (ServiceInfo reg in registrations)
-						catalog.Add(reg, i);
-				}
-			}
+        private void SetupServiceLocator()
+        {
+            container.RegisterInstance(ServiceLocator);
 
-			foreach (ServiceInfo registration in catalog)
-				container.RegisterService(registration);
-		}
+            Microsoft.Practices.ServiceLocation.ServiceLocator.SetLocatorProvider(GetServiceLocator);
+        }
 
-		private void InitApplication()
-		{
-			Application application = container.AsServiceLocator.GetInstance<Application>();
-			application.Initialize();
-		}
+        private IServiceLocator GetServiceLocator()
+        {
+            if (OperationContext.Current != null)
+                return OperationContext.Current.ServiceLocator;
 
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+            return serviceLocator;
+        }
 
-		protected virtual void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				IDisposable disposable = container as IDisposable;
-				if (disposable != null)
-					disposable.Dispose();
-			}
-		}
-	}
+        private void RegisterServices()
+        {
+            RegistrationsCatalog catalog = new RegistrationsCatalog();
+
+            IEnumerable<Type> types = applicationAssemblies.SelectMany(a => a.GetTypes());
+
+            foreach (Type type in types)
+            {
+                for (int i = 0; i < behaviors.Count; i++)
+                {
+                    IRegistrationBehavior behavior = behaviors[i];
+
+                    IEnumerable<ServiceInfo> registrations = behavior.GetServicesFrom(type);
+                    foreach (ServiceInfo reg in registrations)
+                        catalog.Add(reg, i);
+                }
+            }
+
+            foreach (ServiceInfo registration in catalog)
+                container.RegisterService(registration);
+        }
+
+        private void InitApplication()
+        {
+            Application application = serviceLocator.GetInstance<Application>();
+            application.Initialize();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                IDisposable disposable = container as IDisposable;
+                if (disposable != null)
+                    disposable.Dispose();
+            }
+        }
+    }
 }

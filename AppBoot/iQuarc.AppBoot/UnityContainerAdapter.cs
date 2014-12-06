@@ -21,8 +21,14 @@ namespace iQuarc.AppBoot
 		public UnityContainerAdapter()
 		{
 			container = new UnityContainer();
-			serviceLocator = new UnityHierarchicalServiceLocator(container);
+            serviceLocator = new UnityServiceLocator(container);
 		}
+
+	    private UnityContainerAdapter(IUnityContainer child)
+	    {
+	        this.container = child;
+            serviceLocator = new UnityServiceLocator(child);
+	    }
 
 		public IServiceLocator AsServiceLocator
 		{
@@ -46,7 +52,13 @@ namespace iQuarc.AppBoot
 			container.RegisterInstance(instance);
 		}
 
-		public void Dispose()
+        public IDependencyContainer CreateChildContainer()
+	    {
+	        IUnityContainer child = container.CreateChildContainer();
+            return new UnityContainerAdapter(child);
+	    }
+
+	    public void Dispose()
 		{
 			container.Dispose();
 		}

@@ -59,16 +59,20 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="CallContextStore.cs" />
     <Compile Include="Container\ConventionRegistrationBehavior.cs" />
     <Compile Include="Container\ExportBuilder.cs" />
     <Compile Include="Container\ServiceAttribute.cs" />
     <Compile Include="Container\ServiceBuilder.cs" />
     <Compile Include="Container\ServiceRegistrationBehavior.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="ContextManager.cs" />
+    <Compile Include="IContextStore.cs" />
     <Compile Include="IDependencyContainer.cs" />
     <Compile Include="IHierarchicalServiceLocator.cs" />
     <Compile Include="IModule.cs" />
     <Compile Include="Container\IRegistrationBehavior.cs" />
+    <Compile Include="OperationContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Container\ServiceInfo.cs" />
     <Compile Include="Container\Lifetime.cs" />

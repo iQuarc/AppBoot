@@ -102,7 +102,12 @@ namespace iQuarc.AppBoot.UnitTests
 			{
 			}
 
-			private static IServiceLocator GetFakeServiceLocator()
+		    public IDependencyContainer CreateChildContainer()
+		    {
+		        throw new NotImplementedException();
+		    }
+
+		    private static IServiceLocator GetFakeServiceLocator()
 			{
 				IModule[] modules = {};
 
