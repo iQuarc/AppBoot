@@ -69,7 +69,6 @@
     <Compile Include="ContextManager.cs" />
     <Compile Include="IContextStore.cs" />
     <Compile Include="IDependencyContainer.cs" />
-    <Compile Include="IHierarchicalServiceLocator.cs" />
     <Compile Include="IModule.cs" />
     <Compile Include="Container\IRegistrationBehavior.cs" />
     <Compile Include="OperationContext.cs" />
@@ -81,7 +80,6 @@
     </Compile>
     <Compile Include="UnityBootstrapper.cs" />
     <Compile Include="UnityContainerAdapter.cs" />
-    <Compile Include="UnityHierarchicalServiceLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

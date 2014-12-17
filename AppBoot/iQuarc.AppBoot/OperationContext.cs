@@ -4,7 +4,7 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace iQuarc.AppBoot
 {
-    public class OperationContext : IDisposable
+    public sealed class OperationContext : IDisposable
     {
         private readonly IServiceLocator serviceLocator;
         private readonly IDependencyContainer container;
@@ -13,7 +13,7 @@ namespace iQuarc.AppBoot
 
         private bool isDisposed;
 
-        protected OperationContext()
+        private OperationContext()
         {
             container = ContextManager.GlobalContainer.CreateChildContainer();
             serviceLocator = container.AsServiceLocator;
@@ -23,9 +23,9 @@ namespace iQuarc.AppBoot
         {
             get
             {
-                if (this.items == null)
-                    this.items = new Hashtable();
-                return this.items;
+                if (items == null)
+                    items = new Hashtable();
+                return items;
             }
         }
 
@@ -36,23 +36,14 @@ namespace iQuarc.AppBoot
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
             if (isDisposed)
                 return;
 
-            if (disposing)
-            {
-                DisposeItems();
+            DisposeItems();
 
-                IDisposable c = container as IDisposable;
-                if (c != null)
-                    c.Dispose();
-            }
+            IDisposable c = container as IDisposable;
+            if (c != null)
+                c.Dispose();
 
             isDisposed = true;
         }
@@ -79,19 +70,6 @@ namespace iQuarc.AppBoot
         public static OperationContext CreateNew()
         {
             OperationContext operationContext = new OperationContext();
-            ContextManager.SwitchContext(operationContext);
-            return operationContext;
-        }
-
-        public static T Create<T>() where T : OperationContext, new()
-        {
-            T operationContext = new T();
-            ContextManager.SwitchContext(operationContext);
-            return operationContext;
-        }
-
-        public static T Begin<T>(T operationContext) where T : OperationContext
-        {
             ContextManager.SwitchContext(operationContext);
             return operationContext;
         }
