@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="BootstrapperTests.RegisterBehaviors.cs" />
     <Compile Include="ConventionRegistrationBehaviorTests.cs" />
+    <Compile Include="OperationContextTests.cs" />
     <Compile Include="RegistrationsCatalogTests.cs" />
     <Compile Include="ServiceEqualityComparer.cs" />
     <Compile Include="ServiceRegistrationBehaviorTests.cs" />

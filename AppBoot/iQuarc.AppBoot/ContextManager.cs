@@ -2,7 +2,7 @@
 
 namespace iQuarc.AppBoot
 {
-    static class ContextManager
+    internal static class ContextManager
     {
         public static IDependencyContainer GlobalContainer { get; set; }
 
