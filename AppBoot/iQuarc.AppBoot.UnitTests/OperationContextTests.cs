@@ -6,6 +6,7 @@ using Xunit;
 
 namespace iQuarc.AppBoot.UnitTests
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "This is a testclass that does not hold unmannaged resources")]
     public class OperationContextTests
     {
         private DependencyContainerDouble lastChildContainer = new DependencyContainerDouble(d => { });
@@ -229,12 +230,12 @@ namespace iQuarc.AppBoot.UnitTests
         {
             private object value;
 
-            public object Get(string key)
+            public object GetContext(string key)
             {
                 return value;
             }
 
-            public void Set(object context, string key)
+            public void SetContext(object context, string key)
             {
                 value = context;
             }

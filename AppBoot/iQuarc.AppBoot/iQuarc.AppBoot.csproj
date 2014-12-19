@@ -68,7 +68,7 @@
     <Compile Include="Container\ServiceBuilder.cs" />
     <Compile Include="Container\ServiceRegistrationBehavior.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="ContextManager.cs" />
+    <Compile Include="ContextManager.cs" />    
     <Compile Include="IContextStore.cs" />
     <Compile Include="IDependencyContainer.cs" />
     <Compile Include="IModule.cs" />

@@ -2,7 +2,7 @@
 {
     public interface IContextStore
     {
-        object Get(string key);
-        void Set(object context, string key);
+        object GetContext(string key);
+        void SetContext(object context, string key);
     }
 }

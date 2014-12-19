@@ -16,7 +16,7 @@ namespace iQuarc.AppBoot
 
         public static OperationContext Current
         {
-            get { return store.Get(KEY) as OperationContext; }
+            get { return store.GetContext(KEY) as OperationContext; }
         }
 
         public static void SwitchContext(OperationContext newContext)
@@ -26,7 +26,7 @@ namespace iQuarc.AppBoot
             if (oldContext != newContext)
             {
                 DisposeContext(oldContext);
-                store.Set(newContext, KEY);
+                store.SetContext(newContext, KEY);
             }
         }
 

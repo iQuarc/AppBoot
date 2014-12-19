@@ -4,12 +4,12 @@ namespace iQuarc.AppBoot.WebApi
 {
     public class HttpRequestContextStore : IContextStore
     {
-        public object Get(string key)
+        public object GetContext(string key)
         {
             return HttpContext.Current.Items[key];
         }
 
-        public void Set(object context, string key)
+        public void SetContext(object context, string key)
         {
             HttpContext.Current.Items[key] = context;
         }
