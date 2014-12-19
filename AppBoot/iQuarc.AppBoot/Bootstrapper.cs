@@ -63,8 +63,6 @@ namespace iQuarc.AppBoot
 
         private void SetupServiceLocator()
         {
-            container.RegisterInstance(ServiceLocator);
-
             Microsoft.Practices.ServiceLocation.ServiceLocator.SetLocatorProvider(GetServiceLocator);
         }
 

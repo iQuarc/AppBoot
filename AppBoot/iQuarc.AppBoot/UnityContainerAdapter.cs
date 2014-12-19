@@ -59,8 +59,12 @@ namespace iQuarc.AppBoot
 	    }
 
 	    public void Dispose()
-		{
-			container.Dispose();
-		}
+	    {
+	        container.Dispose();
+
+	        IDisposable serviceLocatorAsDisposable = serviceLocator as IDisposable;
+	        if (serviceLocatorAsDisposable != null)
+	            serviceLocatorAsDisposable.Dispose();
+	    }
 	}
 }

@@ -32,7 +32,8 @@ namespace iQuarc.AppBoot.UnitTests
 
 			boostrapper.Run();
 
-			containerMock.Verify(c => c.RegisterInstance(serviceLocatorStub), Times.Once);
+		    IServiceLocator sl = boostrapper.ServiceLocator.GetInstance<IServiceLocator>();
+            Assert.Same(boostrapper.ServiceLocator, sl);
 		}
 
 		[Fact]
