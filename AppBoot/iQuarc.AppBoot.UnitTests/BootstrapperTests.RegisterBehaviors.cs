@@ -15,7 +15,9 @@ namespace iQuarc.AppBoot.UnitTests
 		{
 			DummyAssembly assembly = new DummyAssembly(typeof (Implementation), typeof (ProxyImpl));
 			DummyContainer dummyContainer = new DummyContainer();
-			Bootstrapper bootstrapper = new Bootstrapper(new[] {assembly}, dummyContainer);
+		    IBootstrapper bootstrapper = new Bootstrapper(new[] {assembly})
+		        .ConfigureWith(dummyContainer)
+		        .ConfigureWith(new Mock<IContextStore>().Object);
 
 			IRegistrationBehavior proxyBeh = new DummyBehavior("Proxy");
 			IRegistrationBehavior serviceBeh = new DummyBehavior("Service");

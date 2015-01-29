@@ -45,7 +45,7 @@ namespace iQuarc.AppBoot.UnitTests
 
 			Mock<IDependencyContainer> containerMock = GetFakeContainer();
 			
-			Bootstrapper bootstrapper = GetTargetWithAssembly(containerMock);
+			Bootstrapper bootstrapper = GetTargetWithThisAssembly(containerMock);
 			bootstrapper.AddRegistrationBehavior(regBehaviorStub);
 
 			bootstrapper.Run();
@@ -59,24 +59,35 @@ namespace iQuarc.AppBoot.UnitTests
 			Mock<IDependencyContainer> containerMock = GetFakeContainer();
 			Mock<IDisposable> disposable = containerMock.As<IDisposable>();
 
-			Bootstrapper bootstrapper = GetTargetWithAssembly(containerMock);
+			Bootstrapper bootstrapper = GetTargetWithThisAssembly(containerMock);
+            bootstrapper.Run();
 
 			bootstrapper.Dispose();
-			disposable.Verify(c => c.Dispose(), Times.Once);
+			
+            disposable.Verify(c => c.Dispose(), Times.Once);
 		}
 
-		private static Bootstrapper GetTarget(Mock<IDependencyContainer> fakeContainer)
-		{
-			return new Bootstrapper(new Assembly[] {}, fakeContainer.Object);
-		}
+	    private static Bootstrapper GetTarget(Mock<IDependencyContainer> containerDouble)
+	    {
+	        return GetTarget(containerDouble, new Assembly[] {});
+	    }
 
-		private Bootstrapper GetTargetWithAssembly(Mock<IDependencyContainer> container)
-		{
-			Assembly[] assemblies = {typeof (BootstrapperTests).Assembly};
-			return new Bootstrapper(assemblies, container.Object);
-		}
+	    private Bootstrapper GetTargetWithThisAssembly(Mock<IDependencyContainer> containerDouble)
+	    {
+	        Assembly[] assemblies = {typeof (BootstrapperTests).Assembly};
+	        return GetTarget(containerDouble, assemblies);
+	    }
 
-		private static IServiceLocator GetFakeServiceLocator()
+	    private static Bootstrapper GetTarget(Mock<IDependencyContainer> containerDouble, Assembly[] assemblies)
+	    {
+	        Bootstrapper b = new Bootstrapper(assemblies);
+            b   .ConfigureWith(containerDouble.Object)
+	            .ConfigureWith(new Mock<IContextStore>().Object);
+
+	        return b;
+	    }
+
+	    private static IServiceLocator GetFakeServiceLocator()
 		{
 			IModule[] modules = {};
 

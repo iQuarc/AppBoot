@@ -9,32 +9,18 @@ namespace iQuarc.AppBoot
     /// <summary>
     ///     A class that starts the application and initializes it.
     /// </summary>
-    public class Bootstrapper : IDisposable
+    public sealed class Bootstrapper : IBootstrapper, IDisposable
     {
-        private readonly IDependencyContainer container;
-        private readonly IServiceLocator serviceLocator;
+        private IDependencyContainer container;
+        private IServiceLocator serviceLocator;
 
         private readonly IEnumerable<Assembly> applicationAssemblies;
         private readonly List<IRegistrationBehavior> behaviors = new List<IRegistrationBehavior>();
 
-        public Bootstrapper(IEnumerable<Assembly> applicationAssemblies, IDependencyContainer container)
-            : this(applicationAssemblies, container, new CallContextStore())
-        {
-        }
-
-        public Bootstrapper(IEnumerable<Assembly> applicationAssemblies, IDependencyContainer container, IContextStore contextStore)
+        public Bootstrapper(IEnumerable<Assembly> applicationAssemblies)
         {
             this.applicationAssemblies = applicationAssemblies;
-            this.container = container;
-            this.serviceLocator = container.AsServiceLocator;
-
-            InitContextManager(container, contextStore);
-        }
-
-        private static void InitContextManager(IDependencyContainer container, IContextStore contextStore)
-        {
-            ContextManager.GlobalContainer = container;
-            ContextManager.SetContextStore(contextStore);
+            this.Configuration = new BootstrapperConfig();
         }
 
         public IEnumerable<Assembly> ApplicationAssemblies
@@ -47,22 +33,27 @@ namespace iQuarc.AppBoot
             get { return serviceLocator; }
         }
 
+        public BootstrapperConfig Configuration { get; private set; }
+
         public void AddRegistrationBehavior(IRegistrationBehavior behavior)
         {
             behaviors.Add(behavior);
         }
 
-        public virtual void Run()
+        public void Run()
         {
-            SetupServiceLocator();
+            ConfigureDependencyContainer();
+            ConfigureContextManager();
 
             RegisterServices();
 
             InitApplication();
         }
 
-        private void SetupServiceLocator()
+        private void ConfigureDependencyContainer()
         {
+            container = Configuration.GetSetting<IDependencyContainer>();
+            serviceLocator = container.AsServiceLocator;
             Microsoft.Practices.ServiceLocation.ServiceLocator.SetLocatorProvider(GetServiceLocator);
         }
 
@@ -72,6 +63,14 @@ namespace iQuarc.AppBoot
                 return OperationContext.Current.ServiceLocator;
 
             return serviceLocator;
+        }
+
+        private void ConfigureContextManager()
+        {
+            IContextStore contextStore = Configuration.GetSetting<IContextStore>();
+
+            ContextManager.GlobalContainer = container;
+            ContextManager.SetContextStore(contextStore);
         }
 
         private void RegisterServices()
@@ -108,7 +107,7 @@ namespace iQuarc.AppBoot
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
         {
             if (disposing)
             {

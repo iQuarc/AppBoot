@@ -1,12 +1,11 @@
-﻿using Microsoft.Practices.Unity;
-
-namespace iQuarc.AppBoot
+﻿namespace iQuarc.AppBoot
 {
-    internal static class ContextManager
+    static class ContextManager
     {
         public static IDependencyContainer GlobalContainer { get; set; }
 
         private static IContextStore store = new CallContextStore();
+
         public static void SetContextStore(IContextStore contextStore)
         {
             store = contextStore;
