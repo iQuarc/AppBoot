@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 
-namespace iQuarc.AppBoot
+namespace iQuarc.AppBoot.Unity
 {
 	internal sealed class UnityContainerAdapter : IDependencyContainer, IDisposable
 	{

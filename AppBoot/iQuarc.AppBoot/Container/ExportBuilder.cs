@@ -22,7 +22,7 @@ namespace iQuarc.AppBoot
 		}
 
 		[SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Convenience call")]
-		public ExportBuilder AsContractType<T>()
+        public ExportBuilder AsContractType<T>()
 		{
 			return AsContractType(typeof (T));
 		}

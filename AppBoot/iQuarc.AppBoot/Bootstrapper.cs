@@ -103,18 +103,9 @@ namespace iQuarc.AppBoot
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                IDisposable disposable = container as IDisposable;
-                if (disposable != null)
-                    disposable.Dispose();
-            }
+            IDisposable disposable = container as IDisposable;
+            if (disposable != null)
+                disposable.Dispose();
         }
     }
 }
