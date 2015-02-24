@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace iQuarc.AppBoot
 {
@@ -20,6 +21,7 @@ namespace iQuarc.AppBoot
 			return this;
 		}
 
+		[SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Convenience call")]
 		public ExportBuilder AsContractType<T>()
 		{
 			return AsContractType(typeof (T));

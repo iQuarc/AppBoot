@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace iQuarc.AppBoot
@@ -13,14 +14,15 @@ namespace iQuarc.AppBoot
 			IEnumerable<ServiceInfo> services = builders.SelectMany(x => x.GetServicesFrom(type));
 			return services;
 		}
-		
+
 		public ServiceBuilder ForType(Type type)
 		{
 			ServiceBuilder builder = CreateServiceBuilder(x => x == type);
 			builders.Add(builder);
-            return builder;
+			return builder;
 		}
 
+		[SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Convenience call")]
 		public ServiceBuilder ForType<T>()
 		{
 			return this.ForType(typeof (T));
@@ -29,10 +31,11 @@ namespace iQuarc.AppBoot
 		public ServiceBuilder ForTypesDerivedFrom(Type type)
 		{
 			ServiceBuilder builder = CreateServiceBuilder(x => type.IsAssignableFrom(x));
-            builders.Add(builder);
-            return builder;
+			builders.Add(builder);
+			return builder;
 		}
 
+		[SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Convenience call")]
 		public ServiceBuilder ForTypesDerivedFrom<T>()
 		{
 			return ForTypesDerivedFrom(typeof (T));
@@ -41,7 +44,7 @@ namespace iQuarc.AppBoot
 		public ServiceBuilder ForTypesMatching(Predicate<Type> typeFilter)
 		{
 			ServiceBuilder builder = CreateServiceBuilder(typeFilter);
-            builders.Add(builder);
+			builders.Add(builder);
 			return builder;
 		}
 
