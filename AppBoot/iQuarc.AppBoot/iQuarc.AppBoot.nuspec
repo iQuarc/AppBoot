@@ -9,7 +9,7 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<summary>$description$</summary>
 		<description>$description$</description>
-		<releaseNotes>Basic functionality for hiding the DI Container and for defining a modular application.</releaseNotes>
+		<releaseNotes>Adds registrations by convention support.</releaseNotes>
 		<copyright>Copyright 2014</copyright>
 		<tags>Dependency Injection Modularity Bootstrap Configuration</tags>
 		<licenseUrl>https://raw.githubusercontent.com/iQuarc/AppBoot/master/MIT.md</licenseUrl>
