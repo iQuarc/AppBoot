@@ -8,59 +8,99 @@ namespace iQuarc.AppBoot.WebApi
 {
 	public sealed class DependencyContainerResolver : IDependencyResolver
 	{
-		private readonly IServiceLocator serviceLocator;
+		private readonly DependencyScope rootResolver;
 
 		public DependencyContainerResolver(IServiceLocator serviceLocator)
 		{
-			this.serviceLocator = serviceLocator;
-			this.Logger = new DebugExceptionLogger();
+			this.rootResolver = new DependencyScope(serviceLocator);
 		}
 
-		public IExceptionLogger Logger { get; set; }
-
-		public void Dispose()
+		public IExceptionLogger Logger
 		{
-			IDisposable disposable = serviceLocator as IDisposable;
-			if (disposable != null)
-				disposable.Dispose();
+			get { return rootResolver.Logger; }
+			set { rootResolver.Logger = value; }
 		}
 
 		public object GetService(Type serviceType)
 		{
-			try
-			{
-				return serviceLocator.GetInstance(serviceType);
-			}
-			catch (ActivationException ex)
-			{
-				Log(ex);
-				return null;
-			}
+			return rootResolver.GetService(serviceType);
 		}
 
 		public IEnumerable<object> GetServices(Type serviceType)
 		{
-			try
-			{
-				return serviceLocator.GetAllInstances(serviceType);
-			}
-			catch (ActivationException ex)
-			{
-				Log(ex);
-				return Enumerable.Empty<object>();
-			}
+			return rootResolver.GetServices(serviceType);
 		}
 
-	    public IDependencyScope BeginScope()
-	    {
-	        OperationContext contex = OperationContext.CreateNew();
-	        return new DependencyContainerResolver(contex.ServiceLocator);
-	    }
-
-		private void Log(Exception exception)
+		public void Dispose()
 		{
-			if (Logger != null)
-				Logger.Log(exception);
+			rootResolver.Dispose();
+		}
+
+		public IDependencyScope BeginScope()
+		{
+			OperationContext context = OperationContext.CreateNew();
+			return new DependencyScope(context) {Logger = Logger};	
+		}
+
+		private class DependencyScope : IDependencyScope
+		{
+			private readonly IServiceLocator serviceLocator;
+			private readonly OperationContext context;
+
+			public DependencyScope(IServiceLocator serviceLocator)
+			{
+				this.serviceLocator = serviceLocator;
+			}
+
+			public DependencyScope(OperationContext context)
+			{
+				this.context = context;
+				this.serviceLocator = context.ServiceLocator;
+			}
+
+			public void Dispose()
+			{
+				if (context != null)
+					context.Dispose();
+
+				IDisposable disposable = serviceLocator as IDisposable;
+				if (disposable != null)
+					disposable.Dispose();
+			}
+
+			public IExceptionLogger Logger { get; set; }
+
+			public object GetService(Type serviceType)
+			{
+				try
+				{
+					return serviceLocator.GetInstance(serviceType);
+				}
+				catch (ActivationException ex)
+				{
+					Log(ex);
+					return null;
+				}
+			}
+
+			public IEnumerable<object> GetServices(Type serviceType)
+			{
+				try
+				{
+					return serviceLocator.GetAllInstances(serviceType);
+				}
+				catch (ActivationException ex)
+				{
+					Log(ex);
+					return Enumerable.Empty<object>();
+				}
+			}
+
+			private void Log(Exception exception)
+			{
+				if (Logger != null)
+					Logger.Log(exception);
+			}
 		}
 	}
 }

@@ -19,11 +19,6 @@ namespace iQuarc.AppBoot
             get { return bootstrapper.ApplicationAssemblies; }
         }
 
-        public IServiceLocator ServiceLocator
-        {
-            get { return bootstrapper.ServiceLocator; }
-        }
-
         public BootstrapperConfig Configuration
         {
             get { return bootstrapper.Configuration; }
