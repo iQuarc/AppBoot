@@ -57,7 +57,7 @@ namespace iQuarc.AppBoot
 
 				foreach (Type contract in contracts)
 				{
-					ExportBuilder builder = new ExportBuilder();
+					ExportBuilder builder = new ExportBuilder(type);
 					builder.AsContractType(contract);
 
 					config.ExportConfiguration(builder);

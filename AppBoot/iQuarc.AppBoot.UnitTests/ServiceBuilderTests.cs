@@ -59,6 +59,19 @@ namespace iQuarc.AppBoot.UnitTests
 		}
 
 		[Fact]
+		public void GetServicesFrom_UseFromTypeAsContractName_RegisterContractName()
+		{
+			ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
+			builder.Export(c => c.AsContractName(c.FromType.Name));
+
+			ServiceInfo service = builder.GetServicesFrom(typeof(MyService)).First();
+
+			ServiceInfo expected = new ServiceInfo(typeof(MyService), typeof(MyService), "MyService", Lifetime.Instance);
+
+			Assert.Equal(expected, service, comparer);
+		}
+
+		[Fact]
 		public void GetServicesFrom_ConfigureLifetime_RegisterLifetime()
 		{
             ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
