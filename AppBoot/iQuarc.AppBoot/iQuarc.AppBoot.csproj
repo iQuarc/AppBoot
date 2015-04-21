@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="BootstrapperConfig.cs" />
     <Compile Include="BootstrapperConfigureExtensions.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="Container\ServiceBuilder.cs" />
     <Compile Include="Container\ServiceRegistrationBehavior.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="ContextManager.cs" />    
+    <Compile Include="ContextManager.cs" />
     <Compile Include="IBootstrapper.cs" />
     <Compile Include="IContextStore.cs" />
     <Compile Include="IDependencyContainer.cs" />

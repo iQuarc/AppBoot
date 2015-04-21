@@ -9,16 +9,11 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<summary>$description$</summary>
 		<description>$description$</description>
-		<releaseNotes>
-      Make the library to be configurable by specifying which Dependency Container to use.
-      Break the dependency to Unity Container.
-      Integrate with Web API.
-      Add support for using scoped containers.
-    </releaseNotes>
+		<releaseNotes>Initial version of this packages, built on top of AppBoot core v2.0.0</releaseNotes>
 		<copyright>Copyright 2014</copyright>
-		<tags>Dependency Injection Modularity Bootstrap Configuration</tags>
+		<tags>Dependency Injection Modularity Bootstrap Configuration, Unity</tags>
 		<licenseUrl>https://raw.githubusercontent.com/iQuarc/AppBoot/master/MIT.md</licenseUrl>
 		<projectUrl>https://github.com/iQuarc/AppBoot</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/iQuarc/AppBoot/master/Media/nuget-icon.png</iconUrl>
-  </metadata>
+	</metadata>
 </package>
