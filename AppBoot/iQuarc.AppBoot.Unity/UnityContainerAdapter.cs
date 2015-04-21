@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 
-namespace iQuarc.AppBoot
+namespace iQuarc.AppBoot.Unity
 {
 	internal sealed class UnityContainerAdapter : IDependencyContainer, IDisposable
 	{
@@ -21,8 +21,14 @@ namespace iQuarc.AppBoot
 		public UnityContainerAdapter()
 		{
 			container = new UnityContainer();
-			serviceLocator = new UnityServiceLocator(container);
+            serviceLocator = new UnityServiceLocator(container);
 		}
+
+	    private UnityContainerAdapter(IUnityContainer child)
+	    {
+	        this.container = child;
+            serviceLocator = new UnityServiceLocator(child);
+	    }
 
 		public IServiceLocator AsServiceLocator
 		{
@@ -46,9 +52,19 @@ namespace iQuarc.AppBoot
 			container.RegisterInstance(instance);
 		}
 
-		public void Dispose()
-		{
-			container.Dispose();
-		}
+        public IDependencyContainer CreateChildContainer()
+	    {
+	        IUnityContainer child = container.CreateChildContainer();
+            return new UnityContainerAdapter(child);
+	    }
+
+	    public void Dispose()
+	    {
+	        container.Dispose();
+
+	        IDisposable serviceLocatorAsDisposable = serviceLocator as IDisposable;
+	        if (serviceLocatorAsDisposable != null)
+	            serviceLocatorAsDisposable.Dispose();
+	    }
 	}
 }

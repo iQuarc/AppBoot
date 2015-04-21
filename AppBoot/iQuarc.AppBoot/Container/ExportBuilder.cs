@@ -9,6 +9,13 @@ namespace iQuarc.AppBoot
 		private string contractName;
 		private Lifetime life = Lifetime.Instance;
 
+		internal ExportBuilder(Type fromType)
+		{
+			FromType = fromType;
+		}
+
+		public Type FromType { get; private set; }
+
 		public ExportBuilder AsContractName(string name)
 		{
 			this.contractName = name;
@@ -22,7 +29,7 @@ namespace iQuarc.AppBoot
 		}
 
 		[SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Convenience call")]
-		public ExportBuilder AsContractType<T>()
+        public ExportBuilder AsContractType<T>()
 		{
 			return AsContractType(typeof (T));
 		}

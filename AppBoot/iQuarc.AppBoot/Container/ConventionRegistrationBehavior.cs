@@ -23,7 +23,7 @@ namespace iQuarc.AppBoot
 		}
 
 		[SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Convenience call")]
-		public ServiceBuilder ForType<T>()
+        public ServiceBuilder ForType<T>()
 		{
 			return this.ForType(typeof (T));
 		}
@@ -36,7 +36,7 @@ namespace iQuarc.AppBoot
 		}
 
 		[SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "Convenience call")]
-		public ServiceBuilder ForTypesDerivedFrom<T>()
+        public ServiceBuilder ForTypesDerivedFrom<T>()
 		{
 			return ForTypesDerivedFrom(typeof (T));
 		}
