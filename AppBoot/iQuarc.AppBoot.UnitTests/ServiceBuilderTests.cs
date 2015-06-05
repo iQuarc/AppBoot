@@ -15,19 +15,19 @@ namespace iQuarc.AppBoot.UnitTests
 			ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
 			builder.Export();
 
-            List<ServiceInfo> services = builder.GetServicesFrom(typeof(MyService)).ToList();
+			List<ServiceInfo> services = builder.GetServicesFrom(typeof(MyService)).ToList();
 			Assert.Equal(1, services.Count);
 		}
 
 		[Fact]
 		public void GetServicesFrom_NoExportConfiguration_RegisterSameTypeAsContract()
 		{
-            ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
+			ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
 			builder.Export();
 
-            ServiceInfo service = builder.GetServicesFrom(typeof(MyService)).First();
+			ServiceInfo service = builder.GetServicesFrom(typeof(MyService)).First();
 
-            ServiceInfo expected = new ServiceInfo(typeof(MyService), typeof(MyService), Lifetime.Instance);
+			ServiceInfo expected = new ServiceInfo(typeof(MyService), typeof(MyService), Lifetime.Instance);
 
 			Assert.Equal(expected, service, comparer);
 		}
@@ -35,12 +35,12 @@ namespace iQuarc.AppBoot.UnitTests
 		[Fact]
 		public void GetServicesFrom_ConfigureContractType_RegisterContractType()
 		{
-            ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
+			ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
 			builder.Export(c => c.AsContractType<IMyService1>());
 
-            ServiceInfo service = builder.GetServicesFrom(typeof(MyService)).First();
+			ServiceInfo service = builder.GetServicesFrom(typeof(MyService)).First();
 
-            ServiceInfo expected = new ServiceInfo(typeof(MyService), typeof(IMyService1), Lifetime.Instance);
+			ServiceInfo expected = new ServiceInfo(typeof(IMyService1), typeof(MyService), Lifetime.Instance);
 
 			Assert.Equal(expected, service, comparer);
 		}
@@ -48,12 +48,12 @@ namespace iQuarc.AppBoot.UnitTests
 		[Fact]
 		public void GetServicesFrom_ConfigureContractName_RegisterContractName()
 		{
-            ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
+			ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
 			builder.Export(c => c.AsContractName("MyContract"));
 
-            ServiceInfo service = builder.GetServicesFrom(typeof(MyService)).First();
+			ServiceInfo service = builder.GetServicesFrom(typeof(MyService)).First();
 
-            ServiceInfo expected = new ServiceInfo(typeof(MyService), typeof(MyService), "MyContract", Lifetime.Instance);
+			ServiceInfo expected = new ServiceInfo(typeof(MyService), typeof(MyService), "MyContract", Lifetime.Instance);
 
 			Assert.Equal(expected, service, comparer);
 		}
@@ -74,28 +74,28 @@ namespace iQuarc.AppBoot.UnitTests
 		[Fact]
 		public void GetServicesFrom_ConfigureLifetime_RegisterLifetime()
 		{
-            ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
+			ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
 			builder.Export(c => c.WithLifetime(Lifetime.Application));
 
-            ServiceInfo service = builder.GetServicesFrom(typeof(MyService)).First();
+			ServiceInfo service = builder.GetServicesFrom(typeof(MyService)).First();
 
-            ServiceInfo expected = new ServiceInfo(typeof(MyService), typeof(MyService), Lifetime.Application);
+			ServiceInfo expected = new ServiceInfo(typeof(MyService), typeof(MyService), Lifetime.Application);
 
 			Assert.Equal(expected, service, comparer);
 		}
 
-	    [Fact]
-	    public void GetServicesFrom_ExportInterfacesNoInterfaces_NothingRegistered()
-	    {
-	        ServiceBuilder builder = new ServiceBuilder(t => t == typeof (MyOtherService));
-	        builder.ExportInterfaces();
+		[Fact]
+		public void GetServicesFrom_ExportInterfacesNoInterfaces_NothingRegistered()
+		{
+			ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyOtherService));
+			builder.ExportInterfaces();
 
-	        ServiceInfo[] service = builder.GetServicesFrom(typeof (MyOtherService)).ToArray();
+			ServiceInfo[] service = builder.GetServicesFrom(typeof(MyOtherService)).ToArray();
 
-	        Assert.Equal(0, service.Length);
-	    }
+			Assert.Equal(0, service.Length);
+		}
 
-	    [Fact]
+		[Fact]
 		public void GetServicesFrom_ExportInterfacesMultipleInterfaces_RegisterMultipleContractTypes()
 		{
 			ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
@@ -105,8 +105,8 @@ namespace iQuarc.AppBoot.UnitTests
 
 			ServiceInfo[] expected = 
 			{
-				new ServiceInfo(typeof (MyService), typeof (IMyService1), Lifetime.Instance),
-				new ServiceInfo(typeof (MyService), typeof (IMyService2), Lifetime.Instance),
+				new ServiceInfo(typeof (IMyService1), typeof (MyService), Lifetime.Instance),
+				new ServiceInfo(typeof (IMyService2), typeof (MyService), Lifetime.Instance),
 			};
 
 			AssertEx.AreEquivalent(services, comparer.Equals, expected);
@@ -120,7 +120,7 @@ namespace iQuarc.AppBoot.UnitTests
 
 			List<ServiceInfo> services = builder.GetServicesFrom(typeof(MyService)).ToList();
 
-			ServiceInfo expected = new ServiceInfo(typeof (MyService), typeof (IMyService2), Lifetime.Instance);
+			ServiceInfo expected = new ServiceInfo(typeof(IMyService2), typeof(MyService), Lifetime.Instance);
 
 			AssertEx.AreEquivalent(services, comparer.Equals, expected);
 		}
@@ -135,43 +135,43 @@ namespace iQuarc.AppBoot.UnitTests
 
 			ServiceInfo[] expected = 
 			{
-				new ServiceInfo(typeof (MyService), typeof (IMyService1), Lifetime.Application),
-				new ServiceInfo(typeof (MyService), typeof (IMyService2), Lifetime.Application),
+				new ServiceInfo(typeof (IMyService1), typeof (MyService), Lifetime.Application),
+				new ServiceInfo(typeof (IMyService2), typeof (MyService), Lifetime.Application),
 			};
 
 			AssertEx.AreEquivalent(services, comparer.Equals, expected);
 		}
 
-        [Fact]
-        public void GetServicesFrom_MultipleConfigurations_AllConfigurationsExported()
-        {
-            ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
-            builder.Export(c => c.AsContractType<IMyService1>());
-            builder.Export(c => c.AsContractType<IMyService2>());
+		[Fact]
+		public void GetServicesFrom_MultipleConfigurations_AllConfigurationsExported()
+		{
+			ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
+			builder.Export(c => c.AsContractType<IMyService1>());
+			builder.Export(c => c.AsContractType<IMyService2>());
 
-            var services = builder.GetServicesFrom(typeof(MyService));
+			var services = builder.GetServicesFrom(typeof(MyService));
 
 
-            ServiceInfo[] expected = new[]
+			ServiceInfo[] expected = new[]
 	        {
-	            new ServiceInfo(typeof (MyService), typeof (IMyService1), Lifetime.Instance),
-	            new ServiceInfo(typeof (MyService), typeof (IMyService2), Lifetime.Instance),
+	            new ServiceInfo(typeof (IMyService1), typeof (MyService), Lifetime.Instance),
+	            new ServiceInfo(typeof (IMyService2), typeof (MyService), Lifetime.Instance),
 	        };
-            AssertEx.AreEquivalent(services, comparer.Equals, expected);
-        }
+			AssertEx.AreEquivalent(services, comparer.Equals, expected);
+		}
 
-	    [Fact]
-	    public void GetServicesFrom_ExportBuilderWithMultipleConfigs_AllConfigurationsExported()
-	    {
-	        ServiceBuilder builder = new ServiceBuilder(t => t == typeof (MyService));
-	        builder.Export(c => c.AsContractType<IMyService1>().AsContractName("IMyService1").WithLifetime(Lifetime.Application));
+		[Fact]
+		public void GetServicesFrom_ExportBuilderWithMultipleConfigs_AllConfigurationsExported()
+		{
+			ServiceBuilder builder = new ServiceBuilder(t => t == typeof(MyService));
+			builder.Export(c => c.AsContractType<IMyService1>().AsContractName("IMyService1").WithLifetime(Lifetime.Application));
 
-	        var services = builder.GetServicesFrom(typeof (MyService));
+			var services = builder.GetServicesFrom(typeof(MyService));
 
 
-	        ServiceInfo[] expected = {new ServiceInfo(typeof (MyService), typeof (IMyService1), "IMyService1", Lifetime.Application)};
-	        AssertEx.AreEquivalent(services, comparer.Equals, expected);
-	    }
+			ServiceInfo[] expected = { new ServiceInfo(typeof(IMyService1), typeof(MyService), "IMyService1", Lifetime.Application) };
+			AssertEx.AreEquivalent(services, comparer.Equals, expected);
+		}
 
 		[Fact]
 		public void GetServicesFrom_NoTypeMatch_DoesNotExport()
@@ -196,7 +196,7 @@ namespace iQuarc.AppBoot.UnitTests
 		{
 		}
 
-        private class MyOtherService
-        { }
+		private class MyOtherService
+		{ }
 	}
 }
