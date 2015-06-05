@@ -9,7 +9,7 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<summary>$description$</summary>
 		<description>$description$</description>
-		<releaseNotes>Initial version of this packages, built on top of AppBoot core v2.0.0</releaseNotes>
+		<releaseNotes>Initial version of this packages, built on top of AppBoot core v2.0.1</releaseNotes>
 		<copyright>Copyright 2015</copyright>
 		<tags>Dependency Injection Modularity Bootstrap Configuration, Unity</tags>
 		<licenseUrl>https://raw.githubusercontent.com/iQuarc/AppBoot/master/MIT.md</licenseUrl>

@@ -30,9 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="iQuarc.AppBoot, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="iQuarc.AppBoot, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\iQuarc.AppBoot.2.0.0\lib\net45\iQuarc.AppBoot.dll</HintPath>
+      <HintPath>..\packages\iQuarc.AppBoot.2.0.1\lib\net45\iQuarc.AppBoot.dll</HintPath>
     </Reference>
     <Reference Include="iQuarc.SystemEx, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
