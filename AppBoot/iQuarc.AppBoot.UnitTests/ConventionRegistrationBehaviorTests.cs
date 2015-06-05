@@ -114,6 +114,14 @@ namespace iQuarc.AppBoot.UnitTests
 		{
 		}
 
+	    private class Contract : IContract
+	    {
+	    }
+
+		private interface IContract
+		{
+		}
+
         private static ConventionRegistrationBehavior GetTarget()
         {
             return new ConventionRegistrationBehavior();

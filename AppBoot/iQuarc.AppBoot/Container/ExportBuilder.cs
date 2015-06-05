@@ -42,7 +42,7 @@ namespace iQuarc.AppBoot
 
 		internal ServiceInfo GetServiceInfo(Type type)
 		{
-			return new ServiceInfo(type, contractType ?? type, contractName, life);
+			return new ServiceInfo(contractType ?? type, type, contractName, life);
 		}
 	}
 }
