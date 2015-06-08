@@ -27,5 +27,7 @@ namespace iQuarc.AppBoot
 		public string ContractName { get; private set; }
 
 		public Lifetime InstanceLifetime { get; private set; }
+
+        public Func<IDependencyContainer, Type, object> InstanceFactory { get; set; }
 	}
 }
