@@ -14,13 +14,19 @@ namespace iQuarc.AppBoot
 
 		public ServiceInfo(Type from, Type to, string contractName, Lifetime lifetime)
 		{
-			From = from;
-			To = to;
-			ContractName = contractName;
-			InstanceLifetime = lifetime;
+			this.From = from;
+			this.To = to;
+			this.ContractName = contractName;
+			this.InstanceLifetime = lifetime;
 		}
 
-		public Type From { get; private set; }
+        public ServiceInfo(Type to, Func<IDependencyContainer, Type, object> factory)
+        {
+            this.To = to;
+            this.InstanceFactory = InstanceFactory;
+        }
+
+        public Type From { get; private set; }
 
 		public Type To { get; private set; }
 

@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="Container\WcfService.cs" />
+    <Compile Include="Container\WcfServiceAttribute.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="BootstrapperConfig.cs" />

@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace iQuarc.AppBoot.Container
+namespace iQuarc.AppBoot
 {
     public class WcfServiceAttribute : Attribute
     {
-        public WcfServiceAttribute(Type serviceType)
+        public WcfServiceAttribute(Type contractType)
         {
-            this.ServiceType = serviceType;
+            this.ContractType = contractType;
         }
 
-        public Type ServiceType { get; private set; }
+        public Type ContractType { get; private set; }
     }
 }

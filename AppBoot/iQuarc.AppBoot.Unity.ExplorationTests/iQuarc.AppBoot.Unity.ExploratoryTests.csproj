@@ -80,6 +80,12 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\iQuarc.AppBoot\iQuarc.AppBoot.csproj">
+      <Project>{f1412a2b-3e4d-43bc-8a0a-8fc72703aa2c}</Project>
+      <Name>iQuarc.AppBoot</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

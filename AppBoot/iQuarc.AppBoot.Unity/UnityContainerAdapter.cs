@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
+using iQuarc.AppBoot;
 
 namespace iQuarc.AppBoot.Unity
 {
@@ -38,8 +39,11 @@ namespace iQuarc.AppBoot.Unity
 		public void RegisterService(ServiceInfo service)
 		{
 			LifetimeManager lifetime = GetLifetime(service);
-			container.RegisterType(service.From, service.To, service.ContractName, lifetime, new InjectionMember[] {});
-		}
+            if (service.InstanceFactory != null)
+                container.RegisterType(service.From, service.ContractName, new InjectionFactory((c,t,n) => service.InstanceFactory(new UnityContainerAdapter(c), t)));
+            else
+                container.RegisterType(service.From, service.To, service.ContractName, lifetime);
+        }
 
 		private static LifetimeManager GetLifetime(ServiceInfo srv)
 		{
