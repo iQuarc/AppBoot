@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iQuarc.AppBoot.WebApi", "iQ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iQuarc.AppBoot.Unity", "iQuarc.AppBoot.Unity\iQuarc.AppBoot.Unity.csproj", "{FF6A38BE-EDF7-45A6-A653-759253C698BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iQuarc.AppBoot.Unity.UnitTests", "iQuarc.AppBoot.Unity.UnitTests\iQuarc.AppBoot.Unity.UnitTests.csproj", "{F0F02379-3CB9-4E41-9546-393A65C356F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iQuarc.AppBoot.Unity.Tests", "iQuarc.AppBoot.Unity.UnitTests\iQuarc.AppBoot.Unity.Tests.csproj", "{F0F02379-3CB9-4E41-9546-393A65C356F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

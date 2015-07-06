@@ -5,9 +5,9 @@ using Microsoft.Practices.Unity;
 using Moq;
 using Xunit;
 
-namespace iQuarc.AppBoot.Unity.UnitTests
+namespace iQuarc.AppBoot.Unity.Tests
 {
-	public class DisposablesBuilderStrategyTestss
+	public class DisposablesBuilderStrategyUnitTests
 	{
 		[Fact]
 		public void PostBuildUp_MoreDisposablesBuilt_DisposablesDisposed()

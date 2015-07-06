@@ -7,8 +7,8 @@
     <ProjectGuid>{F0F02379-3CB9-4E41-9546-393A65C356F4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>iQuarc.AppBoot.Unity.UnitTests</RootNamespace>
-    <AssemblyName>iQuarc.AppBoot.Unity.UnitTests</AssemblyName>
+    <RootNamespace>iQuarc.AppBoot.Unity.Tests</RootNamespace>
+    <AssemblyName>iQuarc.AppBoot.Unity.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -60,7 +60,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="DisposablesBuilderStrategyTestss.cs" />
+    <Compile Include="DisposablesBuilderStrategyUnitTests.cs" />
+    <Compile Include="DisposablesContainerExtensionIntergrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

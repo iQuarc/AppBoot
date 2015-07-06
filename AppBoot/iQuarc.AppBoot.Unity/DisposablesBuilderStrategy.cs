@@ -4,7 +4,7 @@ using Microsoft.Practices.Unity;
 
 namespace iQuarc.AppBoot.Unity
 {
-	public class DisposablesBuilderStrategy : BuilderStrategy, IDisposable
+	internal class DisposablesBuilderStrategy : BuilderStrategy, IDisposable
 	{
 		private readonly DisposablesBag disposables = new DisposablesBag();
 

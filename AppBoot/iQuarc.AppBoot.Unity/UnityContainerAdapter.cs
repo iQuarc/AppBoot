@@ -21,12 +21,14 @@ namespace iQuarc.AppBoot.Unity
 		public UnityContainerAdapter()
 		{
 			container = new UnityContainer();
+			container.AddExtension(new DisposablesContainerExtension());
             serviceLocator = new UnityServiceLocator(container);
 		}
 
 	    private UnityContainerAdapter(IUnityContainer child)
 	    {
 	        this.container = child;
+		    this.container.AddExtension(new DisposablesContainerExtension());
             serviceLocator = new UnityServiceLocator(child);
 	    }
 
