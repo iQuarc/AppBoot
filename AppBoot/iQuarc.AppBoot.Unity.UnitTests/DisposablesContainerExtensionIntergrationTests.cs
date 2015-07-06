@@ -96,6 +96,23 @@ namespace iQuarc.AppBoot.Unity.Tests
 			AssertIsDisposed(parentContainerSingleton);
 		}
 
+		[Fact]
+		public void WhenParentContainerIsDisposed_ChildCreatedInstancesAreNotDisposedAgain()
+		{
+			IUnityContainer parentContainer = NewContainer();
+			parentContainer.RegisterType<IService, DisposableService>(new PerResolveLifetimeManager());
+
+			IService service;
+			using (IUnityContainer childContainer = CreateChildContainer(parentContainer))
+			{
+				service = childContainer.Resolve<IService>();
+			}
+			Assert.Equal(1, service.DisposeCount);
+
+			parentContainer.Dispose();
+			Assert.Equal(1, service.DisposeCount);
+		}
+
 		private IUnityContainer NewContainer()
 		{
 			UnityContainer container = new UnityContainer();

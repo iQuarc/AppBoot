@@ -12,13 +12,14 @@ namespace iQuarc.AppBoot.Unity.Tests
 		[Fact]
 		public void PostBuildUp_MoreDisposablesBuilt_DisposablesDisposed()
 		{
+			DisposablesBuilderStrategy target = new DisposablesBuilderStrategy();
+
 			Disposable disposable1 = new Disposable();
-			var context1 = new BuilderContextDouble {Existing = disposable1};
+			var context1 = new BuilderContextDouble(target) {Existing = disposable1};
 
 			Disposable disposable2 = new Disposable();
-			var context2 = new BuilderContextDouble {Existing = disposable2};
+			var context2 = new BuilderContextDouble(target) {Existing = disposable2};
 
-			DisposablesBuilderStrategy target = new DisposablesBuilderStrategy();
 
 			target.PostBuildUp(context1);
 			target.PostBuildUp(context2);
@@ -32,12 +33,12 @@ namespace iQuarc.AppBoot.Unity.Tests
 		[Fact]
 		public void PostBuildUp_NotDisposableAndDisposableObjects_DisposablesDisposed()
 		{
-			var context1 = new BuilderContextDouble {Existing = new object()};
+			DisposablesBuilderStrategy target = new DisposablesBuilderStrategy();
+			var context1 = new BuilderContextDouble(target) {Existing = new object()};
 
 			Disposable disposable = new Disposable();
-			var context2 = new BuilderContextDouble {Existing = disposable};
+			var context2 = new BuilderContextDouble(target) {Existing = disposable};
 
-			DisposablesBuilderStrategy target = new DisposablesBuilderStrategy();
 
 			target.PostBuildUp(context1);
 			target.PostBuildUp(context2);
@@ -50,6 +51,7 @@ namespace iQuarc.AppBoot.Unity.Tests
 		[Fact]
 		public void PostBuildUp_DisposableControlledByParent_NotDisposed()
 		{
+			DisposablesBuilderStrategy target = new DisposablesBuilderStrategy();
 			Disposable disposable = new Disposable();
 
 			Mock<IPolicyList> policyListStub = new Mock<IPolicyList>();
@@ -57,12 +59,11 @@ namespace iQuarc.AppBoot.Unity.Tests
 			policyListStub.Setup(p => p.Get(It.IsAny<Type>(), It.IsAny<object>(), It.IsAny<bool>(), out otherList))
 				.Returns(new ContainerControlledLifetimeManager());
 
-			IBuilderContext context = new BuilderContextDouble(policyListStub.Object)
+			IBuilderContext context = new BuilderContextDouble(target, policyListStub.Object)
 			{
 				Existing = disposable,
 			};
 
-			DisposablesBuilderStrategy target = new DisposablesBuilderStrategy();
 
 			target.PostBuildUp(context);
 			target.Dispose();
@@ -92,13 +93,14 @@ namespace iQuarc.AppBoot.Unity.Tests
 
 		private class BuilderContextDouble : IBuilderContext
 		{
-			public BuilderContextDouble()
-				: this(GetEmptyPolicyList())
+			public BuilderContextDouble(IBuilderStrategy strategy)
+				: this(strategy, GetEmptyPolicyList())
 			{
 			}
 
-			public BuilderContextDouble(IPolicyList policies)
+			public BuilderContextDouble(IBuilderStrategy strategy, IPolicyList policies)
 			{
+				Strategies = new StrategyChain {strategy};
 				PersistentPolicies = policies;
 				BuildKey = new NamedTypeBuildKey(GetType());
 			}
