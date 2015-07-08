@@ -56,6 +56,7 @@
     <Compile Include="DisposablesBag.cs" />
     <Compile Include="DisposablesBuilderStrategy.cs" />
     <Compile Include="DisposablesContainerExtension.cs" />
+    <Compile Include="IExtensionsFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnityContainerAdapter.cs" />
   </ItemGroup>

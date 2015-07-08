@@ -7,30 +7,49 @@ namespace iQuarc.AppBoot.Unity
 {
 	internal sealed class UnityContainerAdapter : IDependencyContainer, IDisposable
 	{
+		private readonly IExtensionsFactory extensionFactory;
+
 		private static readonly Dictionary<Lifetime, Func<ServiceInfo, LifetimeManager>> lifetimeManagers
 			= new Dictionary<Lifetime, Func<ServiceInfo, LifetimeManager>>
-			  {
-				  {Lifetime.Instance, s => new PerResolveLifetimeManager()},
-				  {Lifetime.AlwaysNew, s => new TransientLifetimeManager()},
-				  {Lifetime.Application, s => new ContainerControlledLifetimeManager()},
-			  };
+			{
+				{Lifetime.Instance, s => new PerResolveLifetimeManager()},
+				{Lifetime.AlwaysNew, s => new TransientLifetimeManager()},
+				{Lifetime.Application, s => new ContainerControlledLifetimeManager()},
+			};
 
 		private readonly IUnityContainer container;
 		private readonly IServiceLocator serviceLocator;
 
 		public UnityContainerAdapter()
+			: this(new EmptyExtensionsFactory())
 		{
-			container = new UnityContainer();
-			container.AddExtension(new DisposablesContainerExtension());
-            serviceLocator = new UnityServiceLocator(container);
 		}
 
-	    private UnityContainerAdapter(IUnityContainer child)
-	    {
-	        this.container = child;
-		    this.container.AddExtension(new DisposablesContainerExtension());
-            serviceLocator = new UnityServiceLocator(child);
-	    }
+		public UnityContainerAdapter(IExtensionsFactory extensionFactory)
+		{
+			this.extensionFactory = extensionFactory;
+
+			container = new UnityContainer();
+			AddExtenssions(container, extensionFactory.GetContainerExtensions());
+			serviceLocator = new UnityServiceLocator(container);
+		}
+
+		private UnityContainerAdapter(IUnityContainer child, IExtensionsFactory extensionsFactory)
+		{
+			this.extensionFactory = extensionsFactory;
+			AddExtenssions(child, extensionsFactory.GetChildExtensions());
+
+			this.container = child;
+			serviceLocator = new UnityServiceLocator(child);
+		}
+
+		private static void AddExtenssions(IUnityContainer unityContainer, IEnumerable<UnityContainerExtension> extensionss)
+		{
+			foreach (var extension in extensionss)
+			{
+				unityContainer.AddExtension(extension);
+			}
+		}
 
 		public IServiceLocator AsServiceLocator
 		{
@@ -54,19 +73,19 @@ namespace iQuarc.AppBoot.Unity
 			container.RegisterInstance(instance);
 		}
 
-        public IDependencyContainer CreateChildContainer()
-	    {
-	        IUnityContainer child = container.CreateChildContainer();
-            return new UnityContainerAdapter(child);
-	    }
+		public IDependencyContainer CreateChildContainer()
+		{
+			IUnityContainer child = container.CreateChildContainer();
+			return new UnityContainerAdapter(child, extensionFactory);
+		}
 
-	    public void Dispose()
-	    {
-	        container.Dispose();
+		public void Dispose()
+		{
+			container.Dispose();
 
-	        IDisposable serviceLocatorAsDisposable = serviceLocator as IDisposable;
-	        if (serviceLocatorAsDisposable != null)
-	            serviceLocatorAsDisposable.Dispose();
-	    }
+			IDisposable serviceLocatorAsDisposable = serviceLocator as IDisposable;
+			if (serviceLocatorAsDisposable != null)
+				serviceLocatorAsDisposable.Dispose();
+		}
 	}
 }
