@@ -13,12 +13,12 @@ namespace iQuarc.AppBoot.Unity
 	internal class FuncExtensionsFactory : IExtensionsFactory
 	{
 		private readonly Func<IEnumerable<UnityContainerExtension>> containerFactory;
-		private readonly Func<IEnumerable<UnityContainerExtension>> chiildFactory;
+		private readonly Func<IEnumerable<UnityContainerExtension>> childFactory;
 
 		public FuncExtensionsFactory(Func<UnityContainerExtension> factory)
 		{
 			this.containerFactory = () => new[] {factory()};
-			this.chiildFactory = () => new[] { factory() };
+			this.childFactory = () => new[] { factory() };
 		}
 
 		public FuncExtensionsFactory(Func<IEnumerable<UnityContainerExtension>> factory)
@@ -26,10 +26,10 @@ namespace iQuarc.AppBoot.Unity
 		{
 		}
 
-		public FuncExtensionsFactory(Func<IEnumerable<UnityContainerExtension>> containerFactory, Func<IEnumerable<UnityContainerExtension>> chiildFactory)
+		public FuncExtensionsFactory(Func<IEnumerable<UnityContainerExtension>> containerFactory, Func<IEnumerable<UnityContainerExtension>> childFactory)
 		{
 			this.containerFactory = containerFactory;
-			this.chiildFactory = chiildFactory;
+			this.childFactory = childFactory;
 		}
 
 		public IEnumerable<UnityContainerExtension> GetContainerExtensions()
@@ -39,7 +39,7 @@ namespace iQuarc.AppBoot.Unity
 
 		public IEnumerable<UnityContainerExtension> GetChildExtensions()
 		{
-			return chiildFactory();
+			return childFactory();
 		}
 	}
 	

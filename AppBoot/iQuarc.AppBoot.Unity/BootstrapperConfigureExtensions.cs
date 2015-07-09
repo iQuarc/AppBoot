@@ -11,7 +11,7 @@
 		{
 			if (options.DisposeDisposables)
 			{
-				IExtensionsFactory disposablesExtension = new ExtensionsFactory(() => new DisposablesContainerExtension());
+				IExtensionsFactory disposablesExtension = new FuncExtensionsFactory(() => new DisposablesContainerExtension());
 				return bootstrapper.ConfigureWith(new UnityContainerAdapter(disposablesExtension));
 			}
 

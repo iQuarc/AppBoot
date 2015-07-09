@@ -30,22 +30,22 @@ namespace iQuarc.AppBoot.Unity
 			this.extensionFactory = extensionFactory;
 
 			container = new UnityContainer();
-			AddExtenssions(container, extensionFactory.GetContainerExtensions());
+			AddExtensions(container, extensionFactory.GetContainerExtensions());
 			serviceLocator = new UnityServiceLocator(container);
 		}
 
 		private UnityContainerAdapter(IUnityContainer child, IExtensionsFactory extensionsFactory)
 		{
 			this.extensionFactory = extensionsFactory;
-			AddExtenssions(child, extensionsFactory.GetChildExtensions());
+			AddExtensions(child, extensionsFactory.GetChildExtensions());
 
 			this.container = child;
 			serviceLocator = new UnityServiceLocator(child);
 		}
 
-		private static void AddExtenssions(IUnityContainer unityContainer, IEnumerable<UnityContainerExtension> extensionss)
+		private static void AddExtensions(IUnityContainer unityContainer, IEnumerable<UnityContainerExtension> extensions)
 		{
-			foreach (var extension in extensionss)
+			foreach (var extension in extensions)
 			{
 				unityContainer.AddExtension(extension);
 			}
