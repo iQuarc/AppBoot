@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>$id$</id>
+		<version>$version$</version>
+		<title>$title$</title>
+		<authors>$author$</authors>
+		<owners>$author$</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<summary>$description$</summary>
+		<description>$description$</description>
+		<releaseNotes>Initial version of this packages, built on top of AppBoot core v2.0.2</releaseNotes>
+		<copyright>Copyright 2015</copyright>
+		<tags>Dependency Injection Modularity Bootstrap Configuration, Ninject</tags>
+		<licenseUrl>https://raw.githubusercontent.com/iQuarc/AppBoot/master/MIT.md</licenseUrl>
+		<projectUrl>https://github.com/iQuarc/AppBoot</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/iQuarc/AppBoot/master/Media/nuget-icon.png</iconUrl>
+	</metadata>
+</package>
