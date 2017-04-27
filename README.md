@@ -1,8 +1,8 @@
-#AppBoot
+# AppBoot
 
 Generic .Net application boostrapper
 
-##Overview
+## Overview
 
 A lightweight library that handles the startup of an application and abstracts the composite application as concept. It gives a reusable implementation of the *Separate Configuration and Construction from Use* principle.
 
@@ -11,7 +11,7 @@ The two most important steps performed at application startup are:
  - configure the Dependency Injection Container (DIC), and 
  - initialize the Composite Application
 
-##Dependency Injection Support
+## Dependency Injection Support
 
 AppBoot abstracts and hides the underlying Dependency Injection Container (DIC).
 
@@ -19,7 +19,7 @@ By doing this it enforces consistency on how dependency injection and service lo
 
 It provides annotation based and convention based mechanisms for declaring interface implementations. It is extensible with new custom mechanisms for configuring the DIC.
 
-####Annotation Based Configuration
+#### Annotation Based Configuration
 **`ServiceAttribute`** is used to decorate a type which should be registered into the DIC as implementation to the specified interface (or contract).
 
 Declares `PriceCalculator` as 'default' implementation for `IPriceCalculator`:
@@ -92,7 +92,7 @@ public enum Lifetime
 ```
 By doing this declaration close to the implementation class, it makes you more careful not to make stateful singletons, or if you do, to synchronize the access in multi-thread environments.
 
-####Convention Based Configuration
+#### Convention Based Configuration
 Configurations can also be done through conventions.
 
 Registers `UnitOfWork` as 'default' implementation of `IUnitOfWork` interface:
@@ -113,7 +113,7 @@ conventions	.ForTypesMatching(t =>  t.Implements<IApprovalService>() &&
 	                                 .AsContractName(x.FromType.FullName));
 ```
 
-##Composite Application Support
+## Composite Application Support
 
 AppBoot provides a simple definition of a modular application.
 
@@ -142,7 +142,7 @@ At application startup all the `IModule` implementations that were registered in
 
 This mechanism, even if it is very simple, it gives a great flexibility in deployment by configuring which modules are available. Multiple logical modules may be defined by implementing `IModule`, and based on the DIC configuration they are initialized at the application startup.
 
-##Getting Started
+## Getting Started
 
  - Remove any references to a Dependency Injection framework and use the AppBoot instead. Currently AppBoot uses Unity Container, but it may be configured to work with any other DIC
  - Use attribute annotations, convention based or a custom mechanism to define register interface implementation into the underlying DIC
