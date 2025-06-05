@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 
 namespace iQuarc.AppBoot
 {
@@ -54,7 +54,7 @@ namespace iQuarc.AppBoot
         {
             container = Configuration.GetSetting<IDependencyContainer>();
             serviceLocator = container.AsServiceLocator;
-            Microsoft.Practices.ServiceLocation.ServiceLocator.SetLocatorProvider(GetServiceLocator);
+            CommonServiceLocator.ServiceLocator.SetLocatorProvider(GetServiceLocator);
         }
 
         private IServiceLocator GetServiceLocator()

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 
 namespace iQuarc.AppBoot
 {

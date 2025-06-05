@@ -15,10 +15,15 @@
       Integrate with Web API.
       Add support for using scoped containers.
     </releaseNotes>
-		<copyright>Copyright 2014</copyright>
+		<copyright>Copyright 2014-2025</copyright>
 		<tags>Dependency Injection Modularity Bootstrap Configuration</tags>
-		<licenseUrl>https://raw.githubusercontent.com/iQuarc/AppBoot/master/MIT.md</licenseUrl>
+		<license type="expression">MIT</license>
 		<projectUrl>https://github.com/iQuarc/AppBoot</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/iQuarc/AppBoot/master/Media/nuget-icon.png</iconUrl>
+		<icon>images\nuget-icon.png</icon>
+		<readme>docs\README.md</readme>
   </metadata>
+	<files>
+		<file src="..\..\README.md" target="docs\README.md" />
+		<file src="..\..\Media\nuget-icon.png" target="images\nuget-icon.png" />
+	</files>
 </package>

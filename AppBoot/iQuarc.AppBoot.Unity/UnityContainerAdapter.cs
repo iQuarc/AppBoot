@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
+using CommonServiceLocator;
+using Unity;
+using Unity.Injection;
+using Unity.Lifetime;
 
 namespace iQuarc.AppBoot.Unity
 {
 	internal sealed class UnityContainerAdapter : IDependencyContainer, IDisposable
 	{
-		private static readonly Dictionary<Lifetime, Func<ServiceInfo, LifetimeManager>> lifetimeManagers
-			= new Dictionary<Lifetime, Func<ServiceInfo, LifetimeManager>>
+		private static readonly Dictionary<Lifetime, Func<ServiceInfo, ITypeLifetimeManager>> lifetimeManagers
+			= new Dictionary<Lifetime, Func<ServiceInfo, ITypeLifetimeManager>>
 			  {
 				  {Lifetime.Instance, s => new PerResolveLifetimeManager()},
 				  {Lifetime.AlwaysNew, s => new TransientLifetimeManager()},
@@ -37,13 +39,13 @@ namespace iQuarc.AppBoot.Unity
 
 		public void RegisterService(ServiceInfo service)
 		{
-			LifetimeManager lifetime = GetLifetime(service);
+			ITypeLifetimeManager lifetime = GetLifetime(service);
 			container.RegisterType(service.From, service.To, service.ContractName, lifetime, new InjectionMember[] {});
 		}
 
-		private static LifetimeManager GetLifetime(ServiceInfo srv)
+		private static ITypeLifetimeManager GetLifetime(ServiceInfo srv)
 		{
-			Func<ServiceInfo, LifetimeManager> factory = lifetimeManagers[srv.InstanceLifetime];
+			Func<ServiceInfo, ITypeLifetimeManager> factory = lifetimeManagers[srv.InstanceLifetime];
 			return factory(srv);
 		}
 

@@ -1,6 +1,6 @@
 using System;
+using CommonServiceLocator;
 using iQuarc.xUnitEx;
-using Microsoft.Practices.ServiceLocation;
 using Moq;
 using Xunit;
 

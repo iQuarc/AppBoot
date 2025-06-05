@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http.Dependencies;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 
 namespace iQuarc.AppBoot.WebApi
 {

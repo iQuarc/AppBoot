@@ -1,4 +1,5 @@
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Lifetime;
 using Xunit;
 
 namespace iQuarc.AppBoot.Unity.ExplorationTests

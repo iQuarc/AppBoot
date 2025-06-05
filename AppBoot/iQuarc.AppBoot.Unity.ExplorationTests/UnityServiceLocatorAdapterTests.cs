@@ -1,7 +1,8 @@
 using System;
+using CommonServiceLocator;
 using iQuarc.xUnitEx;
-using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Lifetime;
 using Xunit;
 
 namespace iQuarc.AppBoot.Unity.ExplorationTests
@@ -23,18 +24,18 @@ namespace iQuarc.AppBoot.Unity.ExplorationTests
         }
 
         [Fact]
-        public void DisposingTheContainerDoesCrashWhenTheServiceLocatorInstanceIsRegisteredWithContainerControlledLifetime()
+        public void DisposingTheContainerDoesNotCrashWhenTheServiceLocatorInstanceIsRegisteredWithContainerControlledLifetime()
         {
             UnityContainer container = GetNewContainer();
             IServiceLocator sl = new UnityServiceLocator(container);
-            container.RegisterInstance(sl);
+            container.RegisterInstance(sl, new ContainerControlledLifetimeManager());
 
             container.RegisterType<IService, Service>();
             AssertEx.ShouldNotThrow(() => sl.GetInstance<IService>());
 
             Action act = container.Dispose;
 
-            act.ShouldThrow<StackOverflowException>(); // this will trigger sl.Dispose(), which triggers container.Dispose() which turns into a StackOverflowException
+            act.ShouldNotThrow(); // this will trigger sl.Dispose(), which triggers container.Dispose(). In current version this no longer goes into StackOverflowException, but it did in the past.
         }
 
         [Fact]
@@ -53,7 +54,7 @@ namespace iQuarc.AppBoot.Unity.ExplorationTests
         }
 
         [Fact]
-        public void AfterDisposingTheContainerTheServiceLocatorCanResolved()
+        public void AfterDisposingTheContainerTheServiceLocatorCanNotResolve()
         {
             UnityContainer container = GetNewContainer();
             IServiceLocator sl = new UnityServiceLocator(container);
@@ -63,7 +64,7 @@ namespace iQuarc.AppBoot.Unity.ExplorationTests
 
             container.Dispose();
 
-            AssertEx.ShouldNotThrow(() => sl.GetInstance<IService>());
+            AssertEx.ShouldThrow(() => sl.GetInstance<IService>());
         }
 
         private static UnityContainerTestWrapper GetNewContainer()
