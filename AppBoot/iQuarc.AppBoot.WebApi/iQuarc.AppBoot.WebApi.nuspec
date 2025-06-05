@@ -10,10 +10,14 @@
 		<summary>$description$</summary>
 		<description>$description$</description>
 		<releaseNotes>Initial version of this packages, built on top of AppBoot core v2.0.1</releaseNotes>
-		<copyright>Copyright 2014</copyright>
+		<copyright>Copyright 2014-2025</copyright>
 		<tags>Dependency Injection Modularity Bootstrap Configuration, Unity</tags>
-		<licenseUrl>https://raw.githubusercontent.com/iQuarc/AppBoot/master/MIT.md</licenseUrl>
-		<projectUrl>https://github.com/iQuarc/AppBoot</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/iQuarc/AppBoot/master/Media/nuget-icon.png</iconUrl>
+		<license type="expression">MIT</license>
+		<icon>images\nuget-icon.png</icon>
+		<readme>docs\README.md</readme>
 	</metadata>
+	<files>
+		<file src="..\..\README.md" target="docs\README.md" />
+		<file src="..\..\Media\nuget-icon.png" target="images\nuget-icon.png" />
+	</files>
 </package>
