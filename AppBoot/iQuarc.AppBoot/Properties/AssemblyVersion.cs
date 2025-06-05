@@ -16,12 +16,12 @@ static class Version
 	/// <summary>
 	///     New features, but backwards compatible.
 	/// </summary>
-	private const string Minor = "0";
+	private const string Minor = "1";
 
 	/// <summary>
 	///     Backwards compatible bug fixes only.
 	/// </summary>
-	private const string Patch = "3";
+	private const string Patch = "0";
 
 	/// <summary>
 	///     Build number. Prefix with 0 for NuGet version ranges
