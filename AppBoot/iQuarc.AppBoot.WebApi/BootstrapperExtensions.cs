@@ -1,5 +1,5 @@
 using System.Web.Http;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 
 namespace iQuarc.AppBoot.WebApi
 {
