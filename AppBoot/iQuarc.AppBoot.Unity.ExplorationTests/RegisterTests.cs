@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using iQuarc.xUnitEx;
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Injection;
 using Xunit;
 
 namespace iQuarc.AppBoot.Unity.ExplorationTests
@@ -28,14 +29,14 @@ namespace iQuarc.AppBoot.Unity.ExplorationTests
 		}
 
 		[Fact]
-		public void RegisterType_ToIsNull_ArgumentNullException()
+		public void RegisterType_ToIsNull_RegistrationNotAdded()
 		{
 			UnityContainer container = new UnityContainer();
 
 			Type @from = typeof (SomeBaseClass);
 			Action act = () => container.RegisterType(@from, null, (string) null, emptyInjectionMembers);
 
-			act.ShouldThrow<ArgumentNullException>();
+			AssertRegistrationsNotContains(container, typeof(SomeInterfaceImp), null, "");
 		}
 
 		[Fact]
@@ -49,14 +50,14 @@ namespace iQuarc.AppBoot.Unity.ExplorationTests
 		}
 
 		[Fact]
-		public void RegisterType_ToDoesNotInheritFrom_ExceptionExpected()
+		public void RegisterType_ToDoesNotInheritFrom_RegistrationNotAdded()
 		{
 			UnityContainer container = new UnityContainer();
 
 			Action act = () =>
 				container.RegisterType(typeof (SomeInterfaceImp), typeof (SomeBaseClass), "", emptyInjectionMembers);
 
-			act.ShouldThrow<ArgumentException>();
+			AssertRegistrationsNotContains(container, typeof(SomeInterfaceImp), typeof(SomeBaseClass), "");
 		}
 
 		[Fact]
@@ -66,7 +67,7 @@ namespace iQuarc.AppBoot.Unity.ExplorationTests
 
 			container.RegisterType(typeof (SomeBaseClass), typeof (SomeSubClass), "", emptyInjectionMembers);
 
-			AssertRegistrationsContain(container, typeof (SomeBaseClass), typeof (SomeSubClass), null);
+			AssertRegistrationsContain(container, typeof (SomeBaseClass), typeof (SomeSubClass), "");
 		}
 
 		[Fact]
@@ -89,6 +90,16 @@ namespace iQuarc.AppBoot.Unity.ExplorationTests
 				r.Name == name
 				),
 				"Registrations do not contain expected type registration");
+		}
+
+		private static void AssertRegistrationsNotContains(UnityContainer container, Type from, Type to, string name)
+		{
+			Assert.False(container.Registrations.Any(r =>
+					r.RegisteredType == from &&
+					r.MappedToType == to &&
+					r.Name == name
+				),
+				"Registrations DO contain the not expected registration");
 		}
 
 		private interface ISomeInterface

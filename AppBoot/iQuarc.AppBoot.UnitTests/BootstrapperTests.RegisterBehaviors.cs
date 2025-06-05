@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using CommonServiceLocator;
 using iQuarc.SystemEx;
-using Microsoft.Practices.ServiceLocation;
 using Moq;
 using Xunit;
 

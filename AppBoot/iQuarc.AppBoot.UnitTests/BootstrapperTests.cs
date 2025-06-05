@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 using Moq;
 using Xunit;
 

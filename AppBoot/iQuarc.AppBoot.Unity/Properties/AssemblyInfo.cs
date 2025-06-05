@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -22,5 +23,3 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("29ea8f4d-afdf-41bc-91b3-238f6f2cfa00")]
-
-// Version information is in a separate source file: AssemblyVersion.cs and it is the same with the core AppBoot assembly
