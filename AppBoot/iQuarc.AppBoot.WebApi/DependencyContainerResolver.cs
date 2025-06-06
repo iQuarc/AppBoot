@@ -23,7 +23,14 @@ namespace iQuarc.AppBoot.WebApi
 
 		public object GetService(Type serviceType)
 		{
-			return rootResolver.GetService(serviceType);
+			try
+			{
+				return rootResolver.GetService(serviceType);
+			}
+			catch
+			{
+				return null;
+			}
 		}
 
 		public IEnumerable<object> GetServices(Type serviceType)
